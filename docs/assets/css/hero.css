@@ -1,0 +1,238 @@
+.hero {
+  position: relative;
+  display: flex;
+  min-height: max(100vh, 680px);
+  min-height: max(100svh, 680px);
+  align-items: center;
+  overflow: hidden;
+  padding-inline: var(--page-pad);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 20%;
+  bottom: 56%;
+  left: var(--page-pad);
+  width: 1px;
+  background: var(--blood-light);
+  opacity: 0.38;
+}
+
+.hero::after {
+  content: "NOW PLAYING  •  SIDE A";
+  position: absolute;
+  right: var(--page-pad);
+  bottom: 44px;
+  color: rgba(238, 233, 229, 0.34);
+  font: 0.75rem/1 var(--font-mono);
+  letter-spacing: 0.18em;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: var(--content);
+  padding-left: clamp(20px, 4vw, 62px);
+  opacity: var(--hero-fade, 1);
+  transform: translate3d(0, var(--hero-parallax, 0), 0);
+  will-change: opacity, transform;
+}
+
+.hero__title {
+  max-width: 980px;
+  font-size: clamp(3.2rem, 7.4vw, 7rem);
+  letter-spacing: -0.025em;
+  opacity: 0;
+  animation: enter-up 0.9s var(--ease-out) 0.12s forwards;
+}
+
+.hero__name {
+  display: block;
+  margin-bottom: clamp(16px, 2.2vw, 28px);
+  color: var(--text-dim);
+  font: 0.78rem/1 var(--font-mono);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.hero__statement {
+  display: block;
+  max-width: 900px;
+  text-wrap: balance;
+}
+
+.hero__rupture {
+  position: relative;
+  display: inline-block;
+  color: var(--text);
+  font-style: normal;
+  isolation: isolate;
+  animation: hero-rupture-main 4.8s steps(1, end) infinite;
+}
+
+.hero__rupture::before,
+.hero__rupture::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero__rupture::before {
+  color: var(--blood-light);
+  animation: hero-rupture-red 4.8s steps(1, end) infinite;
+}
+
+.hero__rupture::after {
+  color: #d9f8ff;
+  animation: hero-rupture-blue 4.8s steps(1, end) 0.04s infinite;
+}
+
+@keyframes hero-rupture-main {
+  0%,
+  9%,
+  13%,
+  57%,
+  61%,
+  100% {
+    transform: translate(0) skewX(0);
+    text-shadow: none;
+  }
+  10% {
+    transform: translate(-3px, 1px) skewX(-7deg);
+    text-shadow:
+      6px 0 rgba(184, 50, 66, 0.62),
+      -4px 0 rgba(217, 248, 255, 0.42);
+  }
+  12% {
+    transform: translate(2px, -1px) skewX(4deg);
+  }
+  58% {
+    transform: translate(3px) skewX(8deg);
+    text-shadow: -5px 0 rgba(184, 50, 66, 0.5);
+  }
+  60% {
+    transform: translate(-2px) skewX(-3deg);
+  }
+}
+
+@keyframes hero-rupture-red {
+  0%,
+  9%,
+  13%,
+  57%,
+  61%,
+  100% {
+    opacity: 0;
+    transform: translate(0);
+    clip-path: inset(0);
+  }
+  10% {
+    opacity: 0.9;
+    transform: translate(-9px, 1px);
+    clip-path: inset(8% 0 64%);
+  }
+  11% {
+    opacity: 0.68;
+    transform: translate(7px, -1px);
+    clip-path: inset(69% 0 5%);
+  }
+  58% {
+    opacity: 0.82;
+    transform: translate(8px);
+    clip-path: inset(38% 0 34%);
+  }
+  60% {
+    opacity: 0.54;
+    transform: translate(-5px, 1px);
+    clip-path: inset(78% 0 2%);
+  }
+}
+
+@keyframes hero-rupture-blue {
+  0%,
+  10%,
+  14%,
+  56%,
+  60%,
+  100% {
+    opacity: 0;
+    transform: translate(0);
+    clip-path: inset(0);
+  }
+  11% {
+    opacity: 0.7;
+    transform: translate(8px, -1px);
+    clip-path: inset(60% 0 15%);
+  }
+  13% {
+    opacity: 0.48;
+    transform: translate(-6px, 1px);
+    clip-path: inset(5% 0 73%);
+  }
+  57% {
+    opacity: 0.64;
+    transform: translate(-7px);
+    clip-path: inset(25% 0 49%);
+  }
+  59% {
+    opacity: 0.42;
+    transform: translate(5px);
+    clip-path: inset(73% 0 4%);
+  }
+}
+
+.hero__subtitle {
+  max-width: 650px;
+  margin-top: 28px;
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  opacity: 0;
+  animation: enter-up 0.9s var(--ease-out) 0.48s forwards;
+}
+
+.hero__scroll-hint {
+  margin-top: 56px;
+  color: var(--text-dim);
+  font: 0.78rem/1 var(--font-mono);
+  opacity: 0;
+  animation:
+    enter-up 0.9s var(--ease-out) 0.68s forwards,
+    scroll-beat 2.2s ease-in-out 1.7s infinite;
+}
+
+.hero__catalog {
+  position: absolute;
+  top: 24%;
+  right: var(--page-pad);
+  display: grid;
+  gap: 9px;
+  color: rgba(238, 233, 229, 0.34);
+  font: 0.75rem/1 var(--font-mono);
+  letter-spacing: 0.15em;
+  text-align: right;
+}
+
+.hero__catalog span:first-child {
+  color: var(--blood-light);
+}
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes scroll-beat {
+  50% {
+    transform: translateY(7px);
+    color: var(--text);
+  }
+}

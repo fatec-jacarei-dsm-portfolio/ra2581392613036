@@ -1,11 +1,666 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Igor Iansen — Portfólio</title>
+    <meta
+      name="description"
+      content="Portfólio de Igor Iansen, estudante de Desenvolvimento de Software Multiplataforma e desenvolvedor full-stack em início de carreira."
+    />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark" />
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Portfólio - IGOR MIGUEL IANSEN TOLEDO</title>
-</head>
-<body>
-    <h1>Bem vindo ao Portfólio de IGOR MIGUEL IANSEN TOLEDO</h1>
-</body>
+    <link
+      rel="preload"
+      href="assets/fonts/metal-mania-v23-latin-regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="assets/fonts/inter-v20-latin-regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="assets/fonts/inter-v20-latin-700.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/navbar.css" />
+    <link rel="stylesheet" href="assets/css/hero.css" />
+    <link rel="stylesheet" href="assets/css/stack.css" />
+    <link rel="stylesheet" href="assets/css/about.css" />
+    <link rel="stylesheet" href="assets/css/projects.css" />
+    <link rel="stylesheet" href="assets/css/sections.css" />
+    <link rel="stylesheet" href="assets/css/modal.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo" data-i18n="aria.pular"
+      >Pular para o conteúdo</a
+    >
+
+    <canvas id="linesCanvas" aria-hidden="true"></canvas>
+    <canvas id="cursorCanvas" aria-hidden="true"></canvas>
+
+    <div class="finale" id="finale">
+      <canvas id="galaxyCanvas" aria-hidden="true"></canvas>
+    </div>
+    <svg class="svg-defs" aria-hidden="true">
+      <filter id="grain-texture">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.9"
+          numOctaves="2"
+          seed="3"
+          result="grain"
+        />
+        <feColorMatrix
+          in="grain"
+          type="matrix"
+          values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.07 0"
+        />
+      </filter>
+    </svg>
+
+    <header class="navbar" id="navbar">
+      <a
+        class="navbar__home"
+        href="#hero"
+        aria-label="Voltar ao início"
+        data-i18n-aria="aria.inicio"
+      >
+        <img
+          src="assets/media/drumsticks-navbar.png"
+          alt=""
+          width="192"
+          height="158"
+        />
+      </a>
+
+      <nav
+        class="navbar__links"
+        aria-label="Navegação principal"
+        data-i18n-aria="aria.navegacao"
+      >
+        <a
+          class="navbar__nav-link"
+          href="#sobre"
+          data-i18n="nav.sobre"
+          data-text="Sobre"
+          >Sobre</a
+        >
+        <a
+          class="navbar__nav-link"
+          href="#projetos"
+          data-i18n="nav.projetos"
+          data-text="Projetos"
+          >Projetos</a
+        >
+        <a
+          class="navbar__nav-link"
+          href="#contato"
+          data-i18n="nav.contato"
+          data-text="Contato"
+          >Contato</a
+        >
+      </nav>
+
+      <button
+        class="navbar__lang"
+        id="langToggle"
+        type="button"
+        role="switch"
+        aria-checked="false"
+        aria-label="Mudar para inglês"
+        data-i18n-aria="aria.idioma"
+      >
+        <span
+          class="navbar__lang-label navbar__lang-label--pt"
+          aria-hidden="true"
+          >PT</span
+        >
+        <span class="navbar__lang-track" aria-hidden="true"
+          ><span class="navbar__lang-thumb"></span
+        ></span>
+        <span
+          class="navbar__lang-label navbar__lang-label--en"
+          aria-hidden="true"
+          >EN</span
+        >
+      </button>
+    </header>
+
+    <div id="scrollContainer">
+      <main id="conteudo">
+        <section class="hero" id="hero">
+          <div class="hero__catalog" aria-hidden="true">
+            <span>SIDE A</span><span>TRACK 01</span><span>DSM / 2026</span>
+          </div>
+          <div class="hero__content">
+            <h1 class="hero__title" data-i18n="hero.title">
+              <span class="hero__name">Igor Iansen</span>
+              <span class="hero__statement"
+                >Desenvolvimento full-stack,
+                <em
+                  class="hero__rupture"
+                  data-text="da interface ao banco de dados."
+                  >da interface ao banco de dados.</em
+                ></span
+              >
+            </h1>
+            <p class="hero__subtitle" data-i18n="hero.subtitle">
+              Sou estudante de Desenvolvimento de Software Multiplataforma na
+              Fatec Jacareí. Aqui reúno projetos acadêmicos, pessoais e
+              trabalhos desenvolvidos em hackathons.
+            </p>
+            <div class="hero__scroll-hint" data-i18n="hero.scroll">
+              ↓ conheça meu trabalho
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="ticker"
+          tabindex="0"
+          aria-label="Tecnologias e ferramentas"
+          data-i18n-aria="aria.stack"
+        >
+          <h2 class="ticker__label" data-i18n="stack.titulo">
+            TECNOLOGIAS / FERRAMENTAS
+          </h2>
+          <div class="ticker__track" id="stackTicker">
+            <ul class="ticker__group">
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#html5"></use></svg><span
+                  >HTML5</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#css"></use></svg><span>CSS</span>
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#javascript"></use></svg><span
+                  >JavaScript</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#typescript"></use></svg><span
+                  >TypeScript</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#python"></use></svg><span
+                  >Python</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#nodedotjs"></use></svg><span
+                  >Node.js</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#react"></use></svg><span
+                  >React</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#kotlin"></use></svg><span
+                  >Kotlin</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#jetpackcompose"></use></svg><span
+                  >Jetpack Compose</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#insomnia"></use></svg><span
+                  >Insomnia</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#figma"></use></svg><span
+                  >Figma</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#postgresql"></use></svg><span
+                  >PostgreSQL</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#docker"></use></svg><span
+                  >Docker</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#tailwindcss"></use></svg><span
+                  >Tailwind CSS</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#express"></use></svg><span
+                  >Express</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#git"></use></svg><span>Git</span>
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#supabase"></use></svg><span
+                  >Supabase</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#vercel"></use></svg><span
+                  >Vercel</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#render"></use></svg><span
+                  >Render</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#vite"></use></svg><span
+                  >Vite</span
+                >
+              </li>
+              <li class="ticker-tech">
+                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#androidstudio"></use></svg><span
+                  >Android Studio</span
+                >
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="sobre reveal" id="sobre">
+          <div class="sobre__foto">
+            <svg class="vine" viewBox="0 0 320 320" aria-hidden="true">
+              <path
+                class="vine__stem vine__stem--1"
+                pathLength="1"
+                d="M 160 305 C 83 299, 28 253, 20 184 C 10 101, 75 29, 153 16 C 213 6, 267 35, 294 104"
+                fill="none"
+                stroke="var(--blood)"
+                stroke-width="2.2"
+                stroke-linecap="round"
+              />
+
+              <g class="vine__leaf" style="--delay: 0.45s">
+                <path
+                  class="leaf__blade"
+                  d="M 48 232 C 34 226, 21 234, 18 248 C 32 250, 44 244, 48 232 Z"
+                />
+                <path
+                  class="leaf__vein"
+                  d="M 21 246 C 31 240, 38 236, 47 232"
+                />
+              </g>
+              <g class="vine__leaf" style="--delay: 0.8s">
+                <path
+                  class="leaf__blade"
+                  d="M 22 149 C 9 143, -2 151, -4 164 C 9 167, 20 160, 22 149 Z"
+                />
+                <path class="leaf__vein" d="M -1 162 C 8 157, 14 153, 21 149" />
+              </g>
+              <g class="vine__leaf" style="--delay: 1.15s">
+                <path
+                  class="leaf__blade"
+                  d="M 103 30 C 99 15, 86 7, 72 11 C 76 25, 88 34, 103 30 Z"
+                />
+                <path class="leaf__vein" d="M 75 13 C 84 20, 92 25, 102 30" />
+              </g>
+
+              <path
+                class="vine__thorn"
+                style="--delay: 1.35s"
+                d="M 68 267 Q 59 273, 55 284"
+              />
+              <path
+                class="vine__thorn"
+                style="--delay: 1.55s"
+                d="M 247 53 Q 257 46, 261 35"
+              />
+
+              <g class="vine__rose" transform="translate(294 104) scale(.82)">
+                <path
+                  class="petal petal--1"
+                  pathLength="1"
+                  d="M 0 0 C -12 -12, -13 -29, -2 -41 C 11 -34, 16 -18, 8 -5 Z"
+                />
+                <path
+                  class="petal petal--2"
+                  pathLength="1"
+                  d="M 3 0 C 13 -15, 30 -22, 43 -14 C 40 1, 27 12, 10 10 Z"
+                />
+                <path
+                  class="petal petal--3"
+                  pathLength="1"
+                  d="M 4 4 C 20 2, 35 12, 38 27 C 25 35, 10 27, 2 13 Z"
+                />
+                <path
+                  class="petal petal--4"
+                  pathLength="1"
+                  d="M 0 5 C 10 20, 4 35, -10 42 C -22 32, -22 15, -8 3 Z"
+                />
+                <path
+                  class="petal petal--5"
+                  pathLength="1"
+                  d="M -3 2 C -16 14, -33 14, -42 3 C -36 -11, -20 -17, -6 -9 Z"
+                />
+
+                <path
+                  class="petal petal--inner petal--6"
+                  pathLength="1"
+                  d="M 0 0 C -6 -10, -3 -20, 5 -25 C 14 -17, 14 -5, 5 2 Z"
+                />
+                <path
+                  class="petal petal--inner petal--7"
+                  pathLength="1"
+                  d="M 4 1 C 12 -5, 22 -2, 25 7 C 20 15, 9 16, 2 9 Z"
+                />
+                <path
+                  class="petal petal--inner petal--8"
+                  pathLength="1"
+                  d="M 1 5 C 7 13, 3 23, -6 26 C -14 20, -15 9, -7 3 Z"
+                />
+                <path
+                  class="petal petal--inner petal--9"
+                  pathLength="1"
+                  d="M -3 3 C -10 9, -20 6, -23 -3 C -17 -10, -7 -11, 0 -5 Z"
+                />
+                <path
+                  class="rose__spiral"
+                  pathLength="1"
+                  d="M -4 1 C -1 -6, 10 -6, 11 1 C 12 8, 3 12, -2 8 C -6 5, -3 1, 1 2"
+                />
+              </g>
+            </svg>
+            <img
+              class="profile-photo"
+              src="assets/media/profile-700.jpg"
+              alt="Foto de Igor Iansen"
+              data-i18n-alt="sobre.foto.alt"
+              width="700"
+              height="660"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="sobre__conteudo">
+            <h2
+              class="glitch-heading"
+              data-i18n="sobre.titulo"
+              data-text="Sobre mim"
+            >
+              Sobre mim
+            </h2>
+            <div class="sobre__texto">
+              <p data-i18n="sobre.texto.1">
+                Sou estudante de
+                <code>Desenvolvimento de Software Multiplataforma</code> na
+                Fatec Jacareí e busco minha primeira oportunidade como
+                desenvolvedor full-stack.
+              </p>
+              <p data-i18n="sobre.texto.2">
+                Gosto de acompanhar um projeto por inteiro, da interface à API e
+                ao banco de dados. Tenho trabalhado principalmente com
+                <strong
+                  >JavaScript, TypeScript, React, Node.js, Express e
+                  PostgreSQL</strong
+                >
+                em projetos acadêmicos, pessoais e hackathons.
+              </p>
+              <p data-i18n="sobre.texto.3">
+                Aprendo melhor desenvolvendo projetos e resolvendo problemas na
+                prática. Também comecei a estudar <code>cibersegurança</code> e
+                <code>inteligência artificial</code>, áreas que pretendo
+                explorar com mais profundidade.
+              </p>
+            </div>
+            <ul
+              class="sobre__interesses"
+              aria-label="Áreas de interesse"
+              data-i18n-aria="aria.interesses"
+            >
+              <li data-i18n="sobre.interesse.fullstack">Full-stack</li>
+              <li data-i18n="sobre.interesse.hackathons">Hackathons</li>
+              <li data-i18n="sobre.interesse.cyber">Cibersegurança</li>
+              <li data-i18n="sobre.interesse.ai">Inteligência artificial</li>
+            </ul>
+          </div>
+        </section>
+
+        <div class="soundwave" aria-hidden="true" id="soundwave"></div>
+
+        <section class="projetos" id="projetos">
+          <div class="projetos__header reveal">
+            <div>
+              <h2
+                class="glitch-heading"
+                data-i18n="projetos.titulo"
+                data-text="Projetos"
+              >
+                Projetos
+              </h2>
+            </div>
+
+            <div class="projetos__controls">
+              <div
+                class="projetos__filtros"
+                aria-label="Filtrar projetos"
+                data-i18n-aria="aria.filtros"
+              >
+                <button
+                  class="filtro-btn is-active"
+                  type="button"
+                  data-categoria="todos"
+                  aria-pressed="true"
+                  data-i18n="projetos.filtro.todos"
+                >
+                  Todos
+                </button>
+                <button
+                  class="filtro-btn"
+                  type="button"
+                  data-categoria="academico"
+                  aria-pressed="false"
+                  data-i18n="projetos.filtro.academicos"
+                >
+                  Acadêmicos
+                </button>
+                <button
+                  class="filtro-btn"
+                  type="button"
+                  data-categoria="profissional"
+                  aria-pressed="false"
+                  data-i18n="projetos.filtro.profissionais"
+                >
+                  Profissionais
+                </button>
+                <button
+                  class="filtro-btn"
+                  type="button"
+                  data-categoria="pessoal"
+                  aria-pressed="false"
+                  data-i18n="projetos.filtro.pessoais"
+                >
+                  Pessoais
+                </button>
+              </div>
+
+              <div
+                class="projetos__view-toggle"
+                role="group"
+                aria-label="Modo de visualização"
+                data-i18n-aria="aria.visualizacao"
+              >
+                <button
+                  class="view-btn is-active"
+                  type="button"
+                  data-view="grid"
+                  aria-label="Visualização em grade"
+                  data-i18n-aria="aria.grade"
+                  aria-pressed="true"
+                >
+                  ▦
+                </button>
+                <button
+                  class="view-btn"
+                  type="button"
+                  data-view="list"
+                  aria-label="Visualização em lista"
+                  data-i18n-aria="aria.lista"
+                  aria-pressed="false"
+                >
+                  ☰
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="projetos__grid"
+            id="projetosGrid"
+            data-view="grid"
+            aria-live="polite"
+          ></div>
+        </section>
+
+        <section class="info-complementar reveal" id="info">
+          <h2
+            class="glitch-heading"
+            data-i18n="info.titulo"
+            data-text="Outros detalhes"
+          >
+            Outros detalhes
+          </h2>
+          <div class="info-complementar__grid">
+            <article class="info-card">
+              <h3 data-i18n="info.formacao">Formação acadêmica</h3>
+              <p data-i18n="info.formacao.texto">
+                Curso Desenvolvimento de Software Multiplataforma na Fatec
+                Jacareí e estou atualmente no 2º semestre.
+              </p>
+            </article>
+            <article class="info-card">
+              <h3 data-i18n="info.foco">Foco atual</h3>
+              <p data-i18n="info.foco.texto">
+                Estou aprofundando meus conhecimentos em desenvolvimento
+                full-stack, com atenção ao front-end, back-end e banco de dados.
+              </p>
+            </article>
+            <article class="info-card">
+              <h3 data-i18n="info.hobbies">Hobbies e interesses</h3>
+              <p data-i18n="info.hobbies.texto">
+                Fora da programação, toco bateria e gosto de música emo e
+                alternativa, jogos e cultura gótica.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="contato reveal" id="contato">
+          <h2
+            class="glitch-heading"
+            data-i18n="contato.titulo"
+            data-text="Vamos conversar?"
+          >
+            Vamos conversar?
+          </h2>
+          <div class="contato__links">
+            <a
+              href="https://github.com/igoriansen"
+              target="_blank"
+              rel="noopener"
+              class="btn-contato"
+              >GitHub</a
+            >
+            <a
+              href="https://br.linkedin.com/in/igoriansen"
+              target="_blank"
+              rel="noopener"
+              class="btn-contato"
+              >LinkedIn</a
+            >
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p data-i18n="footer.texto">© 2026 Igor Iansen · Portfólio</p>
+      </footer>
+
+      <div class="galaxy-reveal" id="galaxyReveal" aria-hidden="true"></div>
+    </div>
+
+    <div id="scrollSpacer" aria-hidden="true"></div>
+
+    <div class="modal-overlay" id="modalOverlay" aria-hidden="true" inert>
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+        tabindex="-1"
+      >
+        <button
+          class="modal__close"
+          id="modalClose"
+          type="button"
+          aria-label="Fechar"
+          data-i18n-aria="aria.fechar"
+        >
+          ×
+        </button>
+        <p class="modal__categoria" id="modalCategoria"></p>
+        <h3 class="glitch-heading" id="modalTitle" data-text=""></h3>
+        <p class="modal__semestre" id="modalSemestre"></p>
+
+        <div class="modal__field">
+          <span class="modal__field-label" data-i18n="modal.descricao"
+            >Descrição</span
+          >
+          <p id="modalDescricao"></p>
+        </div>
+
+        <div class="modal__field">
+          <span class="modal__field-label" data-i18n="modal.contribuicao"
+            >Contribuição pessoal</span
+          >
+          <p id="modalContribuicao"></p>
+        </div>
+
+        <div class="modal__field">
+          <span class="modal__field-label" data-i18n="modal.tecnologias"
+            >Tecnologias</span
+          >
+          <div class="modal__tech-list" id="modalTech"></div>
+        </div>
+
+        <a
+          href="#"
+          id="modalRepoLink"
+          class="btn-contato"
+          target="_blank"
+          rel="noopener"
+          data-i18n="modal.repo"
+          >Ver repositório →</a
+        >
+      </div>
+    </div>
+
+    <script src="assets/js/main.js" type="module"></script>
+  </body>
 </html>
