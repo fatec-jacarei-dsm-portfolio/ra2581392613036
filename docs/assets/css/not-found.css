@@ -1,0 +1,31 @@
+.page-404 {
+  display: grid;
+  min-height: 100vh;
+  min-height: 100svh;
+  place-items: center;
+  padding: 24px;
+}
+.erro {
+  width: min(720px, 100%);
+  padding: clamp(28px, 7vw, 64px);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(8, 8, 9, 0.88);
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.56),
+    inset 2px 0 0 var(--blood);
+}
+.erro small {
+  color: var(--blood-light);
+  font-family: var(--font-mono);
+  letter-spacing: 0.16em;
+}
+.erro h1 {
+  margin: 20px 0;
+  font-size: clamp(5rem, 24vw, 11rem);
+  line-height: 0.9;
+}
+.erro p {
+  margin-bottom: 30px;
+  color: var(--text-dim);
+}
