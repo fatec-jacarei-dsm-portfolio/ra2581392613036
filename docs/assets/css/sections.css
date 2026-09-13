@@ -1,0 +1,123 @@
+.info-complementar {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding: 110px var(--page-pad) 150px;
+}
+.info-complementar h2 {
+  max-width: 760px;
+  margin-bottom: 52px;
+}
+.info-complementar__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.info-card {
+  position: relative;
+  min-height: 220px;
+  overflow: hidden;
+  padding: 32px 30px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(8, 8, 10, 0.52);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.info-card:hover {
+  background: var(--surface-hover);
+  border-color: rgba(238, 233, 229, 0.2);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.info-card h3 {
+  margin: 0 0 15px;
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+.info-card p {
+  color: var(--text-dim);
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.contato {
+  position: relative;
+  display: flex;
+  min-height: 70vh;
+  max-width: var(--content);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
+  padding: 100px var(--page-pad) 140px;
+  text-align: center;
+}
+.contato h2 {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 42px;
+  font-size: clamp(3.2rem, 8vw, 6.7rem);
+}
+.contato__links {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.btn-contato {
+  display: inline-grid;
+  min-width: 150px;
+  min-height: 52px;
+  place-items: center;
+  padding: 13px 28px;
+  border: 1px solid var(--line-red);
+  border-radius: 16px;
+  background: rgba(12, 12, 14, 0.68);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.075em;
+  text-decoration: none;
+  text-transform: uppercase;
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.3s ease,
+    transform 0.15s ease-out;
+}
+.btn-contato:hover {
+  background: rgba(238, 233, 229, 0.08);
+  border-color: rgba(238, 233, 229, 0.28);
+  box-shadow:
+    0 16px 42px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.footer {
+  padding: 26px var(--page-pad) 38px;
+  color: var(--text-dim);
+  font: 0.78rem/1.5 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+.footer p {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  padding: 10px 16px;
+  border: 1px solid rgba(238, 233, 229, 0.08);
+  border-radius: 999px;
+  background: rgba(8, 8, 10, 0.4);
+}

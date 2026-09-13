@@ -1,0 +1,231 @@
+.sobre {
+  position: relative;
+  display: flex;
+  min-height: 84vh;
+  max-width: var(--content);
+  align-items: center;
+  gap: clamp(48px, 9vw, 118px);
+  margin-inline: auto;
+  padding: clamp(105px, 13vw, 165px) var(--page-pad);
+}
+
+.sobre__foto {
+  position: relative;
+  z-index: 1;
+  width: 320px;
+  height: 320px;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 0 34px rgba(118, 21, 32, 0.16));
+}
+
+.profile-photo {
+  position: absolute;
+  z-index: 1;
+  inset: 20px;
+  width: 280px;
+  height: 280px;
+  border: 1px solid var(--blood);
+  border-radius: 50%;
+  object-fit: cover;
+  filter: saturate(0.78) contrast(1.07);
+}
+
+.vine {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.vine__stem--1 {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 2s ease;
+}
+.vine__leaf,
+.vine__thorn {
+  opacity: 0;
+  transform: scale(0.6);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.5s ease var(--delay),
+    transform 0.5s ease var(--delay);
+}
+.leaf__blade {
+  fill: rgba(118, 21, 32, 0.72);
+  stroke: var(--blood-light);
+  stroke-width: 0.8;
+}
+.leaf__vein,
+.vine__thorn {
+  fill: none;
+  stroke: var(--blood-light);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+.sobre.is-visible .vine__stem--1 {
+  stroke-dashoffset: 0;
+}
+.sobre.is-visible .vine__leaf,
+.sobre.is-visible .vine__thorn {
+  opacity: 0.85;
+  transform: scale(1);
+}
+
+.petal {
+  fill: #090002;
+  fill-opacity: 0;
+  stroke: var(--blood-light);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition:
+    stroke-dashoffset 0.7s ease,
+    fill-opacity 0.45s ease;
+}
+.petal--inner {
+  fill: #120003;
+  stroke-width: 1.25;
+}
+.petal--1 {
+  transition-delay: 1.7s;
+}
+.petal--2 {
+  transition-delay: 1.85s;
+}
+.petal--3 {
+  transition-delay: 2s;
+}
+.petal--4 {
+  transition-delay: 2.15s;
+}
+.petal--5 {
+  transition-delay: 2.3s;
+}
+.petal--6 {
+  transition-delay: 2.42s;
+}
+.petal--7 {
+  transition-delay: 2.54s;
+}
+.petal--8 {
+  transition-delay: 2.66s;
+}
+.petal--9 {
+  transition-delay: 2.78s;
+}
+.rose__spiral {
+  fill: none;
+  stroke: #e24958;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.65s ease 2.9s;
+}
+.sobre.is-visible .petal {
+  stroke-dashoffset: 0;
+  fill-opacity: 1;
+}
+.sobre.is-visible .rose__spiral {
+  stroke-dashoffset: 0;
+}
+
+.sobre__conteudo {
+  position: relative;
+}
+.sobre__conteudo h2,
+.projetos__header h2,
+.info-complementar h2 {
+  color: var(--text);
+  font-size: clamp(2.6rem, 5vw, 4.5rem);
+  letter-spacing: -0.015em;
+}
+.sobre__conteudo h2 {
+  margin-bottom: 22px;
+}
+.sobre__texto {
+  max-width: 660px;
+}
+.sobre__texto p {
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+.sobre__texto p + p {
+  margin-top: 14px;
+}
+.sobre__texto strong {
+  color: var(--text);
+  font-weight: 700;
+}
+.sobre__texto code {
+  padding: 2px 6px;
+  border: 1px solid rgba(212, 58, 75, 0.2);
+  border-radius: 6px;
+  background: rgba(212, 58, 75, 0.055);
+  color: #d9d1ce;
+  font: 0.88em/1.4 var(--font-mono);
+}
+.sobre__interesses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 28px;
+  list-style: none;
+}
+.sobre__interesses li {
+  padding: 7px 12px;
+  border: 1px solid rgba(212, 58, 75, 0.27);
+  border-radius: 999px;
+  background: rgba(212, 58, 75, 0.055);
+  color: #c9c1bf;
+  font: 0.78rem/1.2 var(--font-mono);
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s var(--ease-out);
+}
+.sobre__interesses li:hover {
+  color: var(--text);
+  background: rgba(238, 233, 229, 0.07);
+  transform: translateY(-2px);
+}
+
+.soundwave {
+  display: flex;
+  width: 100%;
+  height: 66px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  overflow: hidden;
+  padding-inline: var(--page-pad);
+}
+.soundwave span {
+  width: 2px;
+  min-height: 2px;
+  height: var(--wave-height, 12px);
+  border-radius: 2px;
+  background: var(--blood-light);
+  opacity: 0.44;
+  animation: soundwave-pulse var(--wave-duration, 1s) ease-in-out
+    var(--wave-delay, 0s) infinite alternate;
+}
+@keyframes soundwave-pulse {
+  from {
+    opacity: 0.18;
+    transform: scaleY(0.13);
+  }
+  to {
+    opacity: 0.66;
+    transform: scaleY(1);
+  }
+}
