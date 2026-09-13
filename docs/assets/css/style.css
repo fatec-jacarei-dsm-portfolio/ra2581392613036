@@ -1,0 +1,244 @@
+@font-face {
+  font-family: "Metal Mania";
+  src: url("../fonts/metal-mania-v23-latin-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/inter-v20-latin-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/inter-v20-latin-700.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+  --bg: #000;
+  --surface: rgba(10, 10, 12, 0.92);
+  --surface-hover: rgba(17, 17, 20, 0.96);
+  --blood: #55131b;
+  --blood-light: #b83242;
+  --blood-soft: rgba(184, 50, 66, 0.09);
+  --text: #eee9e5;
+  --text-dim: #aaa3a4;
+  --line: rgba(238, 233, 229, 0.11);
+  --line-strong: rgba(238, 233, 229, 0.2);
+  --line-red: rgba(184, 50, 66, 0.3);
+  --font-display: "Metal Mania", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "Courier New", monospace;
+  --page-pad: clamp(20px, 5vw, 72px);
+  --content: 1200px;
+  --radius-lg: 30px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scrollbar-color: var(--blood) #050505;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--blood);
+  border: 2px solid #050505;
+}
+::selection {
+  color: #fff;
+  background: var(--blood);
+}
+
+body {
+  min-width: 300px;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+}
+
+body.modal-aberto {
+  overflow: hidden;
+}
+html.is-paused *,
+html.is-paused *::before,
+html.is-paused *::after {
+  animation-play-state: paused !important;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  font: inherit;
+}
+a {
+  color: inherit;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.08;
+}
+
+:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 5px;
+}
+
+#sobre,
+#projetos,
+#contato {
+  scroll-margin-top: 96px;
+}
+
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 16px;
+  z-index: 500;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--text);
+  color: #000;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 0.25s var(--ease-out);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+#scrollContainer {
+  position: fixed;
+  inset: 0 auto auto 0;
+  z-index: 2;
+  width: 100%;
+  background: transparent;
+  will-change: transform;
+}
+
+#scrollSpacer {
+  width: 1px;
+}
+main,
+.footer {
+  position: relative;
+  background: transparent;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  filter: url(#grain-texture);
+  opacity: 0.42;
+}
+
+#linesCanvas,
+#cursorCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#linesCanvas {
+  z-index: 1;
+  opacity: 0.9;
+}
+#cursorCanvas {
+  z-index: 500;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+.finale {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #000;
+  clip-path: inset(100% 0 0 0);
+  will-change: clip-path;
+}
+
+#galaxyCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.galaxy-reveal {
+  position: relative;
+  height: 180vh;
+  pointer-events: none;
+}
+
+.cursor-pulse {
+  position: fixed;
+  z-index: 501;
+  width: 9px;
+  height: 9px;
+  border: 1px solid rgba(238, 233, 229, 0.58);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.2);
+  animation: cursor-pulse 0.45s var(--ease-out) forwards;
+}
+
+@keyframes cursor-pulse {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.8);
+    border-color: rgba(238, 233, 229, 0.12);
+  }
+}
