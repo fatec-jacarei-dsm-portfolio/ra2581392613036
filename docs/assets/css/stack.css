@@ -104,7 +104,7 @@
 .projeto-card,
 .info-card {
   opacity: var(--reveal-opacity, 0);
-  transform: translate3d(0, var(--reveal-y, 68px), 0)
+  transform: translate3d(0, var(--reveal-y, 46px), 0)
     scale(var(--reveal-scale, 0.978));
 }
 
@@ -117,13 +117,13 @@
 [data-i18n]:not(.skip-link),
 #projetosGrid {
   transition:
-    opacity 0.32s ease,
-    transform 0.38s var(--ease-out),
-    filter 0.28s ease;
+    opacity 0.42s ease,
+    transform 0.48s var(--ease-out),
+    filter 0.36s ease;
 }
 html.is-changing-language [data-i18n]:not(.skip-link),
 html.is-changing-language #projetosGrid {
   opacity: 0;
-  transform: translateY(-7px);
-  filter: blur(4px);
+  transform: translateY(-5px);
+  filter: blur(3px);
 }

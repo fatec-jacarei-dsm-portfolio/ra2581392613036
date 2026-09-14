@@ -61,12 +61,12 @@ async function trocarIdiomaComAnimacao() {
     if (!reduzirMovimento) {
       document.documentElement.classList.add("is-changing-language");
       langToggle.classList.add("is-switching");
-      await new Promise((resolve) => setTimeout(resolve, 180));
+      await new Promise((resolve) => setTimeout(resolve, 240));
     }
 
     await carregarIdioma(state.idiomaAtual === "pt" ? "en" : "pt");
     if (!reduzirMovimento)
-      await new Promise((resolve) => setTimeout(resolve, 360));
+      await new Promise((resolve) => setTimeout(resolve, 460));
   } finally {
     document.documentElement.classList.remove("is-changing-language");
     langToggle.classList.remove("is-switching");
