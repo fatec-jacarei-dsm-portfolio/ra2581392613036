@@ -3,6 +3,16 @@ import { ehTouch, limitar, paginaVisivel, reduzirMovimento } from "./core.js";
 const scrollContainer = document.getElementById("scrollContainer");
 const scrollSpacer = document.getElementById("scrollSpacer");
 const navbar = document.getElementById("navbar");
+const hero = document.getElementById("hero");
+const cenaHero = hero?.querySelector(".hero__scene");
+const paineisHero = [...document.querySelectorAll(".hero__panel")];
+const contadorHero = document.querySelector(".hero__counter span");
+const dicaHero = document.querySelector(".hero__scroll-cue");
+const cenasHero = [
+  { centro: 0, alcance: 0.34, x: 94, y: 48, giro: 1.1 },
+  { centro: 0.39, alcance: 0.32, x: -78, y: 56, giro: -0.8 },
+  { centro: 0.76, alcance: 0.3, x: 68, y: -46, giro: 0.65 },
+];
 const linksNavegacao = [...document.querySelectorAll(".navbar__links a")].map(
   (link) => ({
     link,
@@ -19,6 +29,11 @@ export function atualizarElementosReveal() {
 }
 
 export function atualizarReveals() {
+  if (document.documentElement.classList.contains("is-loading")) {
+    atualizarHero();
+    return;
+  }
+
   elementosReveal.forEach((elemento, indice) => {
     const rect = elemento.getBoundingClientRect();
     const atraso = elemento.classList.contains("info-card")
@@ -27,18 +42,18 @@ export function atualizarReveals() {
     const entrada = reduzirMovimento
       ? 1
       : limitar(
-          (innerHeight * (0.92 - atraso) - rect.top) / (innerHeight * 0.42),
+          (innerHeight * (0.92 - atraso) - rect.top) / (innerHeight * 0.56),
         );
     const saida = reduzirMovimento
       ? 1
-      : limitar((rect.bottom - innerHeight * 0.06) / (innerHeight * 0.3));
+      : limitar((rect.bottom - innerHeight * 0.06) / (innerHeight * 0.4));
     const progresso = Math.min(entrada, saida);
     const curva = 1 - (1 - progresso) ** 3;
 
     elemento.style.setProperty("--reveal-opacity", curva.toFixed(3));
     elemento.style.setProperty(
       "--reveal-y",
-      `${((1 - curva) * 68).toFixed(2)}px`,
+      `${((1 - curva) * 46).toFixed(2)}px`,
     );
     elemento.style.setProperty(
       "--reveal-scale",
@@ -47,18 +62,84 @@ export function atualizarReveals() {
     elemento.classList.toggle("is-visible", progresso > 0.1);
   });
 
-  const hero = document.getElementById("hero");
-  const conteudoHero = document.querySelector(".hero__content");
-  if (hero && conteudoHero && !reduzirMovimento) {
-    const progresso = limitar(-hero.getBoundingClientRect().top / innerHeight);
-    conteudoHero.style.setProperty(
-      "--hero-parallax",
-      `${(-progresso * 72).toFixed(2)}px`,
-    );
-    conteudoHero.style.setProperty("--hero-fade", String(1 - progresso * 0.72));
-  }
-
+  atualizarHero();
   atualizarInterfaceScroll();
+}
+
+function atualizarHero() {
+  if (!hero || !cenaHero) return;
+
+  const percurso = Math.max(1, hero.offsetHeight - cenaHero.offsetHeight);
+  const deslocamento = reduzirMovimento
+    ? 0
+    : limitar(-hero.getBoundingClientRect().top, 0, percurso);
+  const progresso = reduzirMovimento ? 0 : deslocamento / percurso;
+  cenaHero.style.setProperty("--hero-pin-y", `${deslocamento.toFixed(2)}px`);
+  cenaHero.style.setProperty(
+    "--hero-opacity",
+    (1 - limitar((progresso - 0.9) / 0.1)).toFixed(3),
+  );
+  cenaHero.style.setProperty(
+    "--hero-scale",
+    (1 - limitar((progresso - 0.86) / 0.14) * 0.035).toFixed(4),
+  );
+  cenaHero.style.setProperty(
+    "--hero-light-x",
+    `${((progresso - 0.5) * 16).toFixed(2)}%`,
+  );
+  cenaHero.style.setProperty(
+    "--backdrop-x",
+    `${((progresso - 0.5) * -76).toFixed(2)}px`,
+  );
+  cenaHero.style.setProperty(
+    "--backdrop-scale",
+    (0.96 + progresso * 0.08).toFixed(4),
+  );
+  cenaHero.style.setProperty(
+    "--signal-rotation",
+    `${(progresso * 32).toFixed(2)}deg`,
+  );
+  cenaHero.style.setProperty(
+    "--signal-scale",
+    (0.82 + progresso * 0.2).toFixed(4),
+  );
+
+  let painelAtivo = 0;
+  let menorDistancia = Infinity;
+  paineisHero.forEach((painel, indice) => {
+    const cena = cenasHero[indice];
+    const distanciaNatural = (progresso - cena.centro) / cena.alcance;
+    const distancia = limitar(distanciaNatural, -1.25, 1.25);
+    const afastamento = Math.abs(distanciaNatural);
+    const fade = limitar((afastamento - 0.14) / 0.86);
+    const opacidade = 1 - fade * fade * (3 - 2 * fade);
+
+    painel.style.setProperty("--panel-opacity", opacidade.toFixed(3));
+    painel.style.setProperty("--panel-x", `${(distancia * cena.x).toFixed(2)}px`);
+    painel.style.setProperty("--panel-y", `${(distancia * cena.y).toFixed(2)}px`);
+    painel.style.setProperty(
+      "--panel-rotation",
+      `${(distancia * cena.giro).toFixed(3)}deg`,
+    );
+    painel.style.setProperty(
+      "--panel-blur",
+      `${((1 - opacidade) * 5).toFixed(2)}px`,
+    );
+    painel.style.setProperty(
+      "--panel-scale",
+      (0.985 + opacidade * 0.015).toFixed(4),
+    );
+
+    const distanciaDoCentro = Math.abs(progresso - cena.centro);
+    if (distanciaDoCentro < menorDistancia) {
+      menorDistancia = distanciaDoCentro;
+      painelAtivo = indice;
+    }
+  });
+
+  if (contadorHero)
+    contadorHero.textContent = String(painelAtivo + 1).padStart(2, "0");
+  if (dicaHero) dicaHero.style.opacity = String(1 - limitar(progresso / 0.12));
 }
 
 function atualizarInterfaceScroll() {
@@ -87,7 +168,7 @@ function loopSmoothScroll() {
     requestAnimationFrame(loopSmoothScroll);
     return;
   }
-  scrollAtual += (scrollY - scrollAtual) * 0.095;
+  scrollAtual += (scrollY - scrollAtual) * 0.075;
   if (Math.abs(scrollY - scrollAtual) < 0.05) scrollAtual = scrollY;
   scrollContainer.style.transform = `translate3d(0, ${-scrollAtual}px, 0)`;
   atualizarReveals();

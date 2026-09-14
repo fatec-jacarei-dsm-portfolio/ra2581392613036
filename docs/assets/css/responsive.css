@@ -33,21 +33,32 @@
     display: flex;
   }
   .hero {
-    min-height: max(100svh, 620px);
-    padding-inline: 24px;
+    height: 270svh;
+    min-height: 1700px;
   }
-  .hero::before {
+  .hero__scene {
+    min-height: 600px;
+  }
+  .hero__panel {
+    width: calc(100% - 48px);
+  }
+  .hero__panel--1,
+  .hero__panel--3 {
     left: 24px;
   }
-  .hero::after {
+  .hero__panel--2 {
     right: 24px;
-    bottom: 28px;
   }
-  .hero__content {
-    padding-left: 18px;
+  .hero__panel h1,
+  .hero__panel h2 {
+    font-size: clamp(3.4rem, 12.5vw, 7rem);
   }
-  .hero__catalog {
-    display: none;
+  .hero__signal {
+    left: 75%;
+    width: min(88vw, 620px);
+  }
+  .hero__counter {
+    right: 24px;
   }
   .sobre,
   .projetos,
@@ -181,17 +192,22 @@
   .navbar__lang.is-en .navbar__lang-thumb {
     transform: translateX(14px);
   }
-  .hero__title {
-    font-size: clamp(2.8rem, 15vw, 4.25rem);
+  .hero {
+    height: 300svh;
+    min-height: 1800px;
   }
-  .hero__subtitle {
-    font-size: 0.98rem;
+  .hero__panel h1,
+  .hero__panel h2 {
+    font-size: clamp(3.1rem, 16vw, 5.2rem);
+    line-height: 0.92;
   }
-  .hero__scroll-hint {
-    margin-top: 42px;
+  .hero__eyebrow {
+    max-width: 80%;
+    line-height: 1.5;
   }
-  .hero::after {
-    display: none;
+  .hero__copy {
+    max-width: 88%;
+    font-size: 1rem;
   }
   .ticker {
     padding-top: 36px;
@@ -260,10 +276,43 @@
   }
   .reveal,
   .projeto-card,
-  .info-card,
-  .hero__content {
+  .info-card {
     opacity: 1 !important;
     transform: none !important;
+  }
+  .hero {
+    height: auto;
+    min-height: max(100svh, 680px);
+  }
+  .hero__scene {
+    height: auto;
+    min-height: max(100svh, 680px);
+    padding: clamp(130px, 18vh, 190px) var(--page-pad) 110px;
+    transform: none !important;
+  }
+  .hero__panels {
+    position: relative;
+    display: grid;
+    gap: clamp(72px, 12vh, 120px);
+  }
+  .hero__panel,
+  .hero__panel--1,
+  .hero__panel--2,
+  .hero__panel--3 {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    width: min(100%, 980px);
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+  .hero__scroll-cue {
+    display: none;
+  }
+  .hero__counter {
+    display: none;
   }
   .vine__stem--1,
   .petal,
