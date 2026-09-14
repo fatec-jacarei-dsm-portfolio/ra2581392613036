@@ -21,6 +21,7 @@ const linksNavegacao = [...document.querySelectorAll(".navbar__links a")].map(
 );
 let elementosReveal = [];
 let scrollAtual = scrollY;
+let atualizacaoScrollPendente = false;
 
 export function atualizarElementosReveal() {
   elementosReveal = [
@@ -70,10 +71,11 @@ function atualizarHero() {
   if (!hero || !cenaHero) return;
 
   const percurso = Math.max(1, hero.offsetHeight - cenaHero.offsetHeight);
-  const deslocamento = reduzirMovimento
+  const deslocamentoNatural = reduzirMovimento
     ? 0
     : limitar(-hero.getBoundingClientRect().top, 0, percurso);
-  const progresso = reduzirMovimento ? 0 : deslocamento / percurso;
+  const deslocamento = ehTouch ? 0 : deslocamentoNatural;
+  const progresso = reduzirMovimento ? 0 : deslocamentoNatural / percurso;
   cenaHero.style.setProperty("--hero-pin-y", `${deslocamento.toFixed(2)}px`);
   cenaHero.style.setProperty(
     "--hero-opacity",
@@ -158,6 +160,15 @@ function atualizarEstadoNavbar() {
   navbar.classList.toggle("is-scrolled", scrollY > 40);
 }
 
+function agendarAtualizacaoScroll() {
+  if (atualizacaoScrollPendente) return;
+  atualizacaoScrollPendente = true;
+  requestAnimationFrame(() => {
+    atualizacaoScrollPendente = false;
+    atualizarReveals();
+  });
+}
+
 export function definirAlturaSpacer() {
   if (!scrollSpacer || ehTouch || reduzirMovimento) return;
   scrollSpacer.style.height = `${scrollContainer.scrollHeight}px`;
@@ -205,7 +216,7 @@ atualizarEstadoNavbar();
 if (ehTouch || reduzirMovimento) {
   scrollContainer.style.position = "static";
   scrollSpacer.style.display = "none";
-  addEventListener("scroll", atualizarReveals, { passive: true });
+  addEventListener("scroll", agendarAtualizacaoScroll, { passive: true });
 } else if ("ResizeObserver" in window) {
   new ResizeObserver(definirAlturaSpacer).observe(scrollContainer);
 } else {

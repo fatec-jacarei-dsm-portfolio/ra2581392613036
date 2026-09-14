@@ -260,6 +260,13 @@
   }
 }
 
+@media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+  .hero__scene {
+    position: sticky;
+    top: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
