@@ -8,6 +8,7 @@ const cenaHero = hero?.querySelector(".hero__scene");
 const paineisHero = [...document.querySelectorAll(".hero__panel")];
 const contadorHero = document.querySelector(".hero__counter span");
 const dicaHero = document.querySelector(".hero__scroll-cue");
+const pagina = document.documentElement;
 const cenasHero = [
   { centro: 0, alcance: 0.29, x: 118, y: 68, giro: 1.2 },
   { centro: 0.38, alcance: 0.29, x: -104, y: 62, giro: -0.9 },
@@ -29,12 +30,11 @@ export function atualizarElementosReveal() {
   ];
 }
 
-export function atualizarReveals() {
-  if (document.documentElement.classList.contains("is-loading")) {
-    atualizarHero();
-    return;
-  }
-
+export function atualizarReveals(
+  ativarElementos =
+    pagina.classList.contains("is-loaded") ||
+    !pagina.classList.contains("is-loading"),
+) {
   elementosReveal.forEach((elemento, indice) => {
     const rect = elemento.getBoundingClientRect();
     const atraso = elemento.classList.contains("info-card")
@@ -60,7 +60,10 @@ export function atualizarReveals() {
       "--reveal-scale",
       (0.978 + curva * 0.022).toFixed(4),
     );
-    elemento.classList.toggle("is-visible", progresso > 0.1);
+    elemento.classList.toggle(
+      "is-visible",
+      ativarElementos && progresso > 0.1,
+    );
   });
 
   atualizarHero();

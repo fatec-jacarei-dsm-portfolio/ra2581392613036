@@ -2,11 +2,12 @@ import { reduzirMovimento } from "./core.js";
 
 const loader = document.getElementById("siteLoader");
 const relogio = document.getElementById("loaderClock");
-const TEMPO_MINIMO = 2000;
+const pagina = document.documentElement;
+const TEMPO_ANIMACAO = 2400;
 const LIMITE_TOTAL = 8000;
-const TEMPO_FINAL = 580;
-const ATRASO_REVELACAO = 260;
-const TEMPO_REVELACAO = 1000;
+const TEMPO_FINAL_ATRASADO = 520;
+const ATRASO_REVELACAO = 100;
+const TEMPO_REVELACAO = 850;
 const formatadorBrasilia = new Intl.DateTimeFormat("pt-BR", {
   timeZone: "America/Sao_Paulo",
   hour: "2-digit",
@@ -33,13 +34,12 @@ function obterHorarioBrasilia() {
 
 function comLimite(promessa, limite = 7000) {
   return new Promise((resolve) => {
-    const timer = setTimeout(resolve, limite);
-    Promise.resolve(promessa)
-      .catch(() => undefined)
-      .then((resultado) => {
-        clearTimeout(timer);
-        resolve(resultado);
-      });
+    const concluir = () => {
+      clearTimeout(timer);
+      resolve();
+    };
+    const timer = setTimeout(concluir, limite);
+    Promise.resolve(promessa).then(concluir, concluir);
   });
 }
 
@@ -72,7 +72,9 @@ function coletarCarregamentos() {
   if (document.fonts?.ready) tarefas.push(document.fonts.ready);
   if (document.readyState !== "complete") {
     tarefas.push(
-      new Promise((resolve) => addEventListener("load", resolve, { once: true })),
+      new Promise((resolve) =>
+        addEventListener("load", resolve, { once: true }),
+      ),
     );
   }
 
@@ -97,49 +99,51 @@ function coletarCarregamentos() {
 
 function atualizarRelogio(progresso, inicio, agora, horarioInicial) {
   const segundosDecorridos = (agora - inicio) / 1000;
-  const chegada = progresso * progresso * (3 - 2 * progresso);
   const horaFinal = horarioInicial.hora + segundosDecorridos / 120;
   const minutoFinal = horarioInicial.minuto + segundosDecorridos / 10;
 
   relogio.style.setProperty(
     "--clock-hour",
-    `${(horaFinal - (1 - chegada) * 38).toFixed(3)}deg`,
+    `${(horaFinal - (1 - progresso) * 30).toFixed(3)}deg`,
   );
   relogio.style.setProperty(
     "--clock-minute",
-    `${(minutoFinal - (1 - chegada) * 360).toFixed(3)}deg`,
+    `${(minutoFinal - (1 - progresso) * 360).toFixed(3)}deg`,
   );
 }
 
-function encerrarIntro(aoEncerrar) {
+function encerrarIntro(aoEncerrar, prepararPagina) {
   loader.classList.add("is-complete");
 
   setTimeout(() => {
-    document.documentElement.classList.add("is-loaded");
+    prepararPagina(true);
+    pagina.classList.add("is-loaded");
     setTimeout(() => {
-      document.documentElement.classList.remove("is-loading");
+      pagina.classList.remove("is-loading");
       loader.remove();
       aoEncerrar();
     }, TEMPO_REVELACAO);
   }, ATRASO_REVELACAO);
 }
 
-export function iniciarIntro() {
+export function iniciarIntro(prepararPagina = () => {}) {
   if (!loader || !relogio || reduzirMovimento) {
-    document.documentElement.classList.remove("is-loading");
-    document.documentElement.classList.add("is-loaded");
+    prepararPagina(true);
+    pagina.classList.remove("is-loading");
+    pagina.classList.add("is-loaded");
     loader?.remove();
     return Promise.resolve();
   }
 
   const tarefas = coletarCarregamentos();
-  const total = Math.max(1, tarefas.length);
+  const total = tarefas.length;
   const inicio = performance.now();
   const horarioInicial = obterHorarioBrasilia();
   let concluidas = 0;
   let progressoExibido = 0;
-  let quadroAnterior = inicio;
   let inicioDaSaida = 0;
+  let progressoInicialDaSaida = 0;
+  let aguardouRecursos = false;
 
   tarefas.forEach((tarefa) => {
     tarefa.finally(() => {
@@ -149,34 +153,40 @@ export function iniciarIntro() {
 
   return new Promise((resolve) => {
     function atualizar(agora) {
-      const intervalo = Math.min(64, agora - quadroAnterior);
       const tempo = agora - inicio;
-      const progressoReal = concluidas / total;
-      const tempoMinimoCumprido = tempo >= TEMPO_MINIMO;
       const recursosProntos = concluidas === total;
       const forcarSaida = tempo >= LIMITE_TOTAL;
+      const tempoNormalizado = Math.min(1, tempo / TEMPO_ANIMACAO);
+      const progressoNatural =
+        tempoNormalizado * tempoNormalizado * (3 - 2 * tempoNormalizado);
+
+      if (!recursosProntos && progressoNatural >= 0.94) {
+        aguardouRecursos = true;
+      }
 
       if (
         !inicioDaSaida &&
-        ((recursosProntos && tempoMinimoCumprido) || forcarSaida)
-      )
+        ((aguardouRecursos && recursosProntos) || forcarSaida)
+      ) {
         inicioDaSaida = agora;
+        progressoInicialDaSaida = progressoExibido;
+      }
 
-      const progressoDeEspera = Math.min(1, tempo / TEMPO_MINIMO);
-      const curvaDeEspera =
-        progressoDeEspera * progressoDeEspera * (3 - 2 * progressoDeEspera);
-      const alvo = inicioDaSaida
-        ? 1
-        : Math.min(
-            0.92,
-            progressoReal * (0.18 + curvaDeEspera * 0.68) +
-              curvaDeEspera * 0.06,
-          );
-      const suavizacao = 1 - Math.exp(-intervalo / 360);
-      progressoExibido += (alvo - progressoExibido) * suavizacao;
-
-      if (inicioDaSaida && agora - inicioDaSaida >= TEMPO_FINAL)
-        progressoExibido = 1;
+      if (inicioDaSaida) {
+        const progressoDaSaida = Math.min(
+          1,
+          (agora - inicioDaSaida) / TEMPO_FINAL_ATRASADO,
+        );
+        const curvaDaSaida =
+          progressoDaSaida * progressoDaSaida * (3 - 2 * progressoDaSaida);
+        progressoExibido =
+          progressoInicialDaSaida +
+          (1 - progressoInicialDaSaida) * curvaDaSaida;
+      } else if (recursosProntos) {
+        progressoExibido = progressoNatural;
+      } else {
+        progressoExibido = Math.min(progressoNatural, 0.94);
+      }
 
       loader.style.setProperty(
         "--loader-progress",
@@ -184,12 +194,14 @@ export function iniciarIntro() {
       );
       atualizarRelogio(progressoExibido, inicio, agora, horarioInicial);
 
-      if (progressoExibido >= 1) {
-        encerrarIntro(resolve);
+      if (progressoExibido >= 0.9999) {
+        progressoExibido = 1;
+        loader.style.setProperty("--loader-progress", "1");
+        atualizarRelogio(1, inicio, agora, horarioInicial);
+        encerrarIntro(resolve, prepararPagina);
         return;
       }
 
-      quadroAnterior = agora;
       requestAnimationFrame(atualizar);
     }
 

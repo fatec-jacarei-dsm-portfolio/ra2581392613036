@@ -26,7 +26,7 @@
     transform 0.55s var(--ease-out);
 }
 
-.is-loading .navbar {
+.is-loading:not(.is-loaded) .navbar {
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, -24px);
