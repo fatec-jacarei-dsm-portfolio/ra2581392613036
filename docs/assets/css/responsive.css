@@ -141,11 +141,14 @@
     gap: 7px;
   }
   .contato__links {
-    width: min(100%, 360px);
-    flex-direction: column;
+    width: auto;
+    flex-direction: row;
   }
   .btn-contato {
     width: 100%;
+  }
+  .contato__links .btn-contato--icone {
+    width: 58px;
   }
 }
 
