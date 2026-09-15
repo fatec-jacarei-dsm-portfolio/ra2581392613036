@@ -140,43 +140,36 @@ function iniciarTickerStack() {
   track.closest(".ticker")?.classList.add("is-running");
 }
 
-function iniciarLinhas() {
-  const canvas = document.getElementById("linesCanvas");
+function iniciarCursor() {
   const cursorCanvas = document.getElementById("cursorCanvas");
-  if (!canvas || !cursorCanvas || ehTouch || reduzirMovimento) return;
-  const ctxFundo = canvas.getContext("2d");
+  if (!cursorCanvas || ehTouch || reduzirMovimento) return;
   const ctx = cursorCanvas.getContext("2d");
-  if (!ctxFundo || !ctx) return;
+  if (!ctx) return;
 
-  let pontos = [];
-  let conexoes = [];
   let rastro = [];
   let tamanho;
   let cursorX = 0;
   let cursorY = 0;
   let cursorAtivo = false;
+  let quadroPendente = false;
   document.documentElement.classList.add("has-custom-cursor");
 
+  function limparCursor() {
+    rastro = [];
+    cursorAtivo = false;
+    if (tamanho) ctx.clearRect(0, 0, tamanho.largura, tamanho.altura);
+  }
+
   function configurar() {
-    tamanho = configurarCanvas(canvas, ctxFundo);
-    configurarCanvas(cursorCanvas, ctx);
-    const total = Math.min(
-      72,
-      Math.max(9, Math.floor((tamanho.largura * tamanho.altura) / 52000)),
-    );
-    pontos = Array.from({ length: total }, () => ({
-      x: Math.random() * tamanho.largura,
-      y: Math.random() * tamanho.altura,
-    }));
-    conexoes = [];
-    const distanciaMaxima = Math.min(tamanho.largura, tamanho.altura) * 0.3;
-    pontos.forEach((a, indiceA) => {
-      pontos.slice(indiceA + 1).forEach((b, indiceB) => {
-        if (Math.hypot(a.x - b.x, a.y - b.y) < distanciaMaxima) {
-          conexoes.push({ a: indiceA, b: indiceA + indiceB + 1 });
-        }
-      });
-    });
+    tamanho = configurarCanvas(cursorCanvas, ctx);
+    rastro = [];
+    cursorAtivo = false;
+  }
+
+  function solicitarDesenho() {
+    if (quadroPendente) return;
+    quadroPendente = true;
+    requestAnimationFrame(desenhar);
   }
 
   addEventListener(
@@ -197,12 +190,12 @@ function iniciarLinhas() {
         ultimo.y = evento.clientY;
         ultimo.vida = 1;
       }
+      solicitarDesenho();
     },
     { passive: true },
   );
-  document.documentElement.addEventListener("mouseleave", () => {
-    cursorAtivo = false;
-  });
+  document.documentElement.addEventListener("mouseleave", limparCursor);
+  addEventListener("blur", limparCursor);
 
   function criarCaminhoDoRastro() {
     ctx.beginPath();
@@ -266,42 +259,30 @@ function iniciarLinhas() {
   }
 
   function desenhar() {
+    quadroPendente = false;
+    ctx.clearRect(0, 0, tamanho.largura, tamanho.altura);
     if (!paginaVisivel) {
-      requestAnimationFrame(desenhar);
+      rastro = [];
       return;
     }
-    ctxFundo.clearRect(0, 0, tamanho.largura, tamanho.altura);
-    ctx.clearRect(0, 0, tamanho.largura, tamanho.altura);
-    const total =
-      conexoes.length *
-      limitar(
-        scrollY /
-          Math.max(1, document.documentElement.scrollHeight - innerHeight),
-      );
-    conexoes.forEach((conexao, indice) => {
-      const parcial = limitar(total - indice);
-      if (!parcial) return;
-      const a = pontos[conexao.a];
-      const b = pontos[conexao.b];
-      ctxFundo.beginPath();
-      ctxFundo.moveTo(a.x, a.y);
-      ctxFundo.lineTo(a.x + (b.x - a.x) * parcial, a.y + (b.y - a.y) * parcial);
-      ctxFundo.strokeStyle = "rgba(237,231,226,.055)";
-      ctxFundo.lineWidth = 0.5;
-      ctxFundo.stroke();
-    });
     desenharRastro();
     desenharPontaDoRastro();
     rastro.forEach((ponto) => {
       ponto.vida -= 0.018;
     });
     rastro = rastro.filter((ponto) => ponto.vida > 0);
-    requestAnimationFrame(desenhar);
+    if (rastro.length) solicitarDesenho();
   }
 
-  addEventListener("resize", configurar, { passive: true });
+  addEventListener(
+    "resize",
+    () => {
+      configurar();
+      solicitarDesenho();
+    },
+    { passive: true },
+  );
   configurar();
-  desenhar();
 }
 
 function iniciarMagnetismo() {
@@ -337,11 +318,14 @@ function iniciarPulsoDeClique() {
   );
 }
 
-export function iniciarEfeitos() {
+export function prepararEfeitos() {
   iniciarGalaxia();
   iniciarSoundwave();
   iniciarTickerStack();
-  iniciarLinhas();
+}
+
+export function iniciarEfeitosInterativos() {
+  iniciarCursor();
   iniciarMagnetismo();
   iniciarPulsoDeClique();
 }

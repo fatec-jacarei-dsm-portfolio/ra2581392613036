@@ -3,12 +3,12 @@ export const projetos = [
     categoria: "academico",
     nome: "Scrum Dungeon",
     descricao: {
-      pt: "RPG educativo desenvolvido pela Octopus Code para ensinar práticas do Scrum por meio de cinco níveis de desafios.",
-      en: "An educational RPG developed by Octopus Code to teach Scrum practices through five levels of challenges.",
+      pt: "Um RPG educativo que transforma as práticas do Scrum em cinco níveis de desafios. O projeto foi desenvolvido em equipe pela Octopus Code.",
+      en: "An educational RPG that turns Scrum practices into five levels of challenges. It was built as a team project by Octopus Code.",
     },
     contribuicao: {
-      pt: "Desenvolvi as mecânicas de progressão do personagem e integrei essa evolução à lógica de sprints do jogo.",
-      en: "I developed the character progression mechanics and integrated them with the game sprint system.",
+      pt: "Fiquei responsável pelas mecânicas de progressão do personagem e pela integração dessa evolução com as sprints do jogo.",
+      en: "I was responsible for the character progression mechanics and for connecting that progression to the game's sprints.",
     },
     tecnologias: [
       "HTML5",
@@ -22,7 +22,7 @@ export const projetos = [
       "Figma",
     ],
     repo: "https://github.com/octopusCode26/scrum-dungeon",
-    semestre: { pt: "1DSM — 1º Sem. 2026", en: "1DSM — 1st semester, 2026" },
+    semestre: { pt: "DSM · 1º semestre · 2026", en: "DSM · 1st semester · 2026" },
     imagem: "assets/media/scrum-dungeon/cover.jpg",
     imagemLargura: 1200,
     imagemAltura: 800,

@@ -26,7 +26,7 @@
     transform 0.55s var(--ease-out);
 }
 
-.is-loading .navbar {
+.is-loading:not(.is-loaded) .navbar {
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, -24px);
@@ -92,9 +92,12 @@
 .navbar__nav-link::after {
   content: attr(data-text);
   position: absolute;
-  top: 10px;
-  left: 14px;
-  z-index: 1;
+  inset: 0;
+  z-index: -1;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
   color: inherit;
   white-space: nowrap;
   opacity: 0;
@@ -104,145 +107,11 @@
 .navbar__nav-link:hover,
 .navbar__nav-link:focus-visible {
   color: var(--text);
-  animation: nav-glitch-main 0.9s steps(1, end) infinite;
-}
-
-.navbar__nav-link:hover::before,
-.navbar__nav-link:focus-visible::before {
-  color: var(--blood-light);
-  text-shadow: 2px 0 rgba(212, 58, 75, 0.55);
-  animation: nav-glitch-red 0.62s steps(1, end) infinite;
-}
-
-.navbar__nav-link:hover::after,
-.navbar__nav-link:focus-visible::after {
-  color: #d9f8ff;
-  text-shadow: -2px 0 rgba(217, 248, 255, 0.42);
-  animation: nav-glitch-blue 0.47s steps(1, end) infinite reverse;
 }
 
 .navbar__nav-link.is-current {
   color: var(--text);
   text-shadow: 0 0 16px rgba(184, 50, 66, 0.32);
-}
-
-@keyframes nav-glitch-main {
-  0%,
-  7%,
-  13%,
-  31%,
-  38%,
-  71%,
-  78%,
-  100% {
-    transform: translate(0) skewX(0);
-    text-shadow: none;
-  }
-  8% {
-    transform: translate(-2px, 1px) skewX(-11deg);
-    text-shadow:
-      4px 0 var(--blood-light),
-      -3px 0 rgba(217, 248, 255, 0.65);
-  }
-  10% {
-    transform: translate(3px, -1px) skewX(7deg);
-    text-shadow: -3px 0 var(--blood-light);
-  }
-  33% {
-    transform: translate(-1px) skewX(14deg);
-    text-shadow: 3px 0 rgba(217, 248, 255, 0.55);
-  }
-  36% {
-    transform: translate(2px) skewX(-5deg);
-    text-shadow: -4px 0 rgba(212, 58, 75, 0.75);
-  }
-  73% {
-    transform: translate(1px, -1px) skewX(-16deg);
-    text-shadow:
-      5px 0 rgba(212, 58, 75, 0.8),
-      -2px 0 rgba(217, 248, 255, 0.45);
-  }
-  76% {
-    transform: translate(-3px, 1px) skewX(5deg);
-  }
-}
-
-@keyframes nav-glitch-red {
-  0%,
-  15%,
-  21%,
-  48%,
-  56%,
-  82%,
-  100% {
-    opacity: 0;
-    transform: translate(0);
-    clip-path: inset(0);
-  }
-  16% {
-    opacity: 0.95;
-    transform: translate(-6px, 1px);
-    clip-path: inset(7% 0 68%);
-  }
-  19% {
-    opacity: 0.72;
-    transform: translate(4px, -1px);
-    clip-path: inset(70% 0 4%);
-  }
-  50% {
-    opacity: 0.9;
-    transform: translate(5px);
-    clip-path: inset(34% 0 40%);
-  }
-  53% {
-    opacity: 0.58;
-    transform: translate(-3px, 1px);
-    clip-path: inset(78% 0 2%);
-  }
-  84% {
-    opacity: 0.88;
-    transform: translate(-5px, -1px);
-    clip-path: inset(18% 0 56%);
-  }
-}
-
-@keyframes nav-glitch-blue {
-  0%,
-  11%,
-  18%,
-  42%,
-  50%,
-  74%,
-  100% {
-    opacity: 0;
-    transform: translate(0);
-    clip-path: inset(0);
-  }
-  12% {
-    opacity: 0.72;
-    transform: translate(5px, -1px);
-    clip-path: inset(62% 0 12%);
-  }
-  16% {
-    opacity: 0.5;
-    transform: translate(-4px, 1px);
-    clip-path: inset(4% 0 76%);
-  }
-  44% {
-    opacity: 0.8;
-    transform: translate(-5px);
-    clip-path: inset(40% 0 31%);
-  }
-  48% {
-    opacity: 0.48;
-    transform: translate(3px, -1px);
-    clip-path: inset(80% 0 1%);
-  }
-  76% {
-    opacity: 0.68;
-    transform: translate(6px, 1px);
-    clip-path: inset(21% 0 57%);
-  }
 }
 
 .glitch-heading {
@@ -264,26 +133,18 @@
   pointer-events: none;
 }
 
-.reveal.is-visible .glitch-heading::before,
-.modal-overlay.is-open #modalTitle::before {
-  color: var(--blood-light);
-  animation: title-glitch-red 0.62s steps(2, end) both;
-}
-
-.reveal.is-visible .glitch-heading::after,
-.modal-overlay.is-open #modalTitle::after {
-  color: #d9f8ff;
-  animation: title-glitch-blue 0.62s steps(2, end) 0.035s both;
-}
-
 .glitch-heading:hover::before,
-.projeto-card:hover .projeto-card__nome::before {
+.projeto-card:hover .projeto-card__nome::before,
+.navbar__nav-link:hover::before,
+.navbar__nav-link:focus-visible::before {
   color: var(--blood-light);
   animation: title-glitch-red 0.46s steps(2, end) infinite;
 }
 
 .glitch-heading:hover::after,
-.projeto-card:hover .projeto-card__nome::after {
+.projeto-card:hover .projeto-card__nome::after,
+.navbar__nav-link:hover::after,
+.navbar__nav-link:focus-visible::after {
   color: #d9f8ff;
   animation: title-glitch-blue 0.53s steps(2, end) infinite reverse;
 }
@@ -432,9 +293,7 @@
   transform: translateX(16px);
 }
 
-.navbar__lang:active {
-  transform: scale(0.96);
-}
+.navbar__lang:active,
 .navbar__lang.is-switching {
   transform: scale(0.96);
 }

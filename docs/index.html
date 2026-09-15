@@ -6,10 +6,11 @@
     <title>Igor Iansen — Portfólio</title>
     <meta
       name="description"
-      content="Portfólio de Igor Iansen, estudante de Desenvolvimento de Software Multiplataforma e desenvolvedor full-stack em início de carreira."
+      content="Portfólio de Igor Iansen, estudante de Desenvolvimento de Software Multiplataforma com foco em desenvolvimento full-stack."
     />
     <meta name="theme-color" content="#000000" />
     <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="assets/media/drumsticks-navbar.png" />
 
     <link
       rel="preload"
@@ -32,7 +33,13 @@
       type="font/woff2"
       crossorigin
     />
-
+    <link
+      rel="preload"
+      href="assets/fonts/inter-tight-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/navbar.css" />
     <link rel="stylesheet" href="assets/css/hero.css" />
@@ -112,9 +119,7 @@
       >Pular para o conteúdo</a
     >
 
-    <canvas id="linesCanvas" aria-hidden="true"></canvas>
     <canvas id="cursorCanvas" aria-hidden="true"></canvas>
-
     <div class="finale" id="finale">
       <canvas id="galaxyCanvas" aria-hidden="true"></canvas>
     </div>
@@ -207,37 +212,50 @@
       <main id="conteudo">
         <section class="hero" id="hero">
           <div class="hero__scene">
-            <div class="hero__signal" aria-hidden="true">
-              <span></span><span></span><span></span>
+            <div class="hero__terminal" aria-hidden="true">
+              <div class="hero__terminal-path">~/portfolio/src</div>
+              <div class="hero__terminal-code">
+                <span
+                  ><i>01</i><code><b>const</b> project = {</code></span
+                >
+                <span
+                  ><i>02</i><code>interface: <em>"React"</em>,</code></span
+                >
+                <span
+                  ><i>03</i><code>server: <em>"Node.js"</em>,</code></span
+                >
+                <span
+                  ><i>04</i><code>database: <em>"PostgreSQL"</em>,</code></span
+                >
+                <span><i>05</i><code>};</code></span>
+                <span
+                  ><i>06</i><code><b>await</b> build(project);</code></span
+                >
+              </div>
+              <div class="hero__terminal-command">
+                <span aria-hidden="true">›</span>
+                <code>npm run dev</code>
+              </div>
             </div>
-            <div class="hero__backdrop" aria-hidden="true">IANSEN</div>
 
             <div class="hero__panels">
               <article class="hero__panel hero__panel--1">
-                <p class="hero__eyebrow" data-i18n="hero.eyebrow.1">
-                  IGOR IANSEN / DESENVOLVEDOR FULL-STACK
-                </p>
                 <h1 data-i18n="hero.title.1">
-                  Código, ritmo e <em>curiosidade.</em>
+                  <span class="hero__ghost">Meu nome é</span>
+                  <em>Igor Iansen</em>
                 </h1>
               </article>
               <article class="hero__panel hero__panel--2">
-                <p class="hero__eyebrow" data-i18n="hero.eyebrow.2">DE PONTA A PONTA</p>
                 <h2 data-i18n="hero.title.2">
-                  Gosto de pegar uma ideia e levar até o fim.
+                  Desenvolvo para web,
+                  <span class="hero__ghost">do front ao back</span>
                 </h2>
-                <p class="hero__copy" data-i18n="hero.copy.2">
-                  Interface, API, regras de negócio e banco de dados.
-                </p>
               </article>
               <article class="hero__panel hero__panel--3">
-                <p class="hero__eyebrow" data-i18n="hero.eyebrow.3">NA PRÁTICA</p>
                 <h2 data-i18n="hero.title.3">
-                  Meu jeito de aprender é construindo.
+                  <span class="hero__ghost">E este é um pouco</span> do que já
+                  construí
                 </h2>
-                <p class="hero__copy" data-i18n="hero.copy.3">
-                  Projetos pessoais, acadêmicos e hackathons.
-                </p>
               </article>
             </div>
 
@@ -245,7 +263,7 @@
               <span>01</span> / 03
             </div>
             <div class="hero__scroll-cue" data-i18n="hero.scroll">
-              role para continuar <span>↓</span>
+              continue rolando <span>↓</span>
             </div>
           </div>
         </section>
@@ -256,111 +274,119 @@
           aria-label="Tecnologias e ferramentas"
           data-i18n-aria="aria.stack"
         >
-          <h2 class="ticker__label" data-i18n="stack.titulo">
+          <h2
+            class="ticker__label glitch-heading"
+            data-i18n="stack.titulo"
+            data-text="TECNOLOGIAS / FERRAMENTAS"
+          >
             TECNOLOGIAS / FERRAMENTAS
           </h2>
           <div class="ticker__track" id="stackTicker">
             <ul class="ticker__group">
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#html5"></use></svg><span
-                  >HTML5</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#html5"></use></svg
+                ><span>HTML5</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#css"></use></svg><span>CSS</span>
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#css"></use></svg
+                ><span>CSS</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#javascript"></use></svg><span
-                  >JavaScript</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#javascript"></use></svg
+                ><span>JavaScript</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#typescript"></use></svg><span
-                  >TypeScript</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#typescript"></use></svg
+                ><span>TypeScript</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#python"></use></svg><span
-                  >Python</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#python"></use></svg
+                ><span>Python</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#nodedotjs"></use></svg><span
-                  >Node.js</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#nodedotjs"></use></svg
+                ><span>Node.js</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#react"></use></svg><span
-                  >React</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#react"></use></svg
+                ><span>React</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#kotlin"></use></svg><span
-                  >Kotlin</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#kotlin"></use></svg
+                ><span>Kotlin</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#jetpackcompose"></use></svg><span
-                  >Jetpack Compose</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#jetpackcompose"></use></svg
+                ><span>Jetpack Compose</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#insomnia"></use></svg><span
-                  >Insomnia</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#insomnia"></use></svg
+                ><span>Insomnia</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#figma"></use></svg><span
-                  >Figma</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#figma"></use></svg
+                ><span>Figma</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#postgresql"></use></svg><span
-                  >PostgreSQL</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#postgresql"></use></svg
+                ><span>PostgreSQL</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#docker"></use></svg><span
-                  >Docker</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#docker"></use></svg
+                ><span>Docker</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#tailwindcss"></use></svg><span
-                  >Tailwind CSS</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#tailwindcss"></use></svg
+                ><span>Tailwind CSS</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#express"></use></svg><span
-                  >Express</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#express"></use></svg
+                ><span>Express</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#git"></use></svg><span>Git</span>
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#git"></use></svg
+                ><span>Git</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#supabase"></use></svg><span
-                  >Supabase</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#supabase"></use></svg
+                ><span>Supabase</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#vercel"></use></svg><span
-                  >Vercel</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#vercel"></use></svg
+                ><span>Vercel</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#render"></use></svg><span
-                  >Render</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#render"></use></svg
+                ><span>Render</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#vite"></use></svg><span
-                  >Vite</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#vite"></use></svg
+                ><span>Vite</span>
               </li>
               <li class="ticker-tech">
-                <svg aria-hidden="true" focusable="false"><use href="assets/icons/stack.svg#androidstudio"></use></svg><span
-                  >Android Studio</span
-                >
+                <svg aria-hidden="true" focusable="false">
+                  <use href="assets/icons/stack.svg#androidstudio"></use></svg
+                ><span>Android Studio</span>
               </li>
             </ul>
           </div>
@@ -491,20 +517,23 @@
             <div class="sobre__texto">
               <p data-i18n="sobre.texto.1">
                 Curso <code>Desenvolvimento de Software Multiplataforma</code>
-                na Fatec Jacareí e estou no segundo semestre. Neste momento,
-                busco minha primeira oportunidade profissional como desenvolvedor.
+                na Fatec Jacareí e estou no segundo semestre. Procuro minha
+                primeira oportunidade na área enquanto continuo construindo
+                projetos e melhorando o que já sei.
               </p>
               <p data-i18n="sobre.texto.2">
-                Minha experiência vem de projetos pessoais, acadêmicos e
-                hackathons. Neles, trabalho principalmente com
-                <strong>JavaScript, TypeScript, React, Node.js, Express e
-                PostgreSQL</strong> e acompanho o desenvolvimento da interface
-                ao banco de dados.
+                Até agora, minha experiência veio de projetos pessoais,
+                trabalhos da faculdade e hackathons. É onde uso principalmente
+                <strong
+                  >JavaScript, TypeScript, React, Node.js, Express e
+                  PostgreSQL</strong
+                >
+                e acompanho o desenvolvimento da interface ao banco de dados.
               </p>
               <p data-i18n="sobre.texto.3">
-                Aprendo melhor quando tenho um problema real para resolver.
-                Gosto de investigar erros, organizar ideias e compartilhar o
-                que aprendo com quem está construindo junto.
+                Aprendo melhor quando tenho algo para construir. Gosto de
+                investigar erros, organizar as ideias e compartilhar o que
+                aprendo com quem está trabalhando comigo.
               </p>
             </div>
             <ul
@@ -620,33 +649,31 @@
           <h2
             class="glitch-heading"
             data-i18n="info.titulo"
-            data-text="Outros detalhes"
+            data-text="Um pouco mais sobre mim"
           >
-            Outros detalhes
+            Um pouco mais sobre mim
           </h2>
           <div class="info-complementar__grid">
             <article class="info-card">
-              <h3 data-i18n="info.formacao">Formação acadêmica</h3>
+              <h3 data-i18n="info.formacao">Faculdade</h3>
               <p data-i18n="info.formacao.texto">
-                Fatec Jacareí · Desenvolvimento de Software Multiplataforma ·
-                2º semestre.
+                Estou no 2º semestre de Desenvolvimento de Software
+                Multiplataforma na Fatec Jacareí.
               </p>
             </article>
             <article class="info-card">
-              <h3 data-i18n="info.foco">Foco atual</h3>
+              <h3 data-i18n="info.foco">O que estou estudando</h3>
               <p data-i18n="info.foco.texto">
-                Sigo aprofundando meus conhecimentos em desenvolvimento
-                full-stack e começo a explorar cibersegurança e inteligência
-                artificial.
+                Hoje, meu foco é desenvolvimento full-stack. Também estou
+                começando a estudar cibersegurança e inteligência artificial.
               </p>
             </article>
             <article class="info-card">
-              <h3 data-i18n="info.hobbies">Fora do código</h3>
+              <h3 data-i18n="info.hobbies">Quando não estou programando</h3>
               <p data-i18n="info.hobbies.texto">
-                Toco bateria, acompanho anime — especialmente Tokyo Ghoul — e
-                jogo Dead by Daylight, Counter-Strike e Valorant. Também sou
-                coroinha na paróquia da minha cidade e gosto de carros e motos
-                esportivas.
+                Toco bateria, assisto animes e gosto de jogos competitivos.
+                Também sou coroinha na paróquia da minha cidade e gosto bastante
+                de carros e motos esportivas.
               </p>
             </article>
           </div>
@@ -656,31 +683,47 @@
           <h2
             class="glitch-heading"
             data-i18n="contato.titulo"
-            data-text="Vamos conversar?"
+            data-text="Onde me encontrar"
           >
-            Vamos conversar?
+            Onde me encontrar
           </h2>
           <div class="contato__links">
             <a
               href="https://github.com/igoriansen"
               target="_blank"
               rel="noopener"
-              class="btn-contato"
-              >GitHub</a
+              class="btn-contato btn-contato--icone"
+              aria-label="GitHub"
             >
+              <img
+                src="assets/icons/github.svg"
+                width="28"
+                height="28"
+                alt=""
+                aria-hidden="true"
+              />
+            </a>
             <a
               href="https://br.linkedin.com/in/igoriansen"
               target="_blank"
               rel="noopener"
-              class="btn-contato"
-              >LinkedIn</a
+              class="btn-contato btn-contato--icone"
+              aria-label="LinkedIn"
             >
+              <img
+                src="assets/icons/linkedin.svg"
+                width="28"
+                height="28"
+                alt=""
+                aria-hidden="true"
+              />
+            </a>
           </div>
         </section>
       </main>
 
       <footer class="footer">
-        <p data-i18n="footer.texto">© 2026 Igor Iansen · Portfólio</p>
+        <p data-i18n="footer.texto">© 2026 Igor Iansen</p>
       </footer>
 
       <div class="galaxy-reveal" id="galaxyReveal" aria-hidden="true"></div>
@@ -718,7 +761,7 @@
 
         <div class="modal__field">
           <span class="modal__field-label" data-i18n="modal.contribuicao"
-            >Contribuição pessoal</span
+            >O que eu fiz</span
           >
           <p id="modalContribuicao"></p>
         </div>

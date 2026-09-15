@@ -19,6 +19,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Inter Tight";
+  src: url("../fonts/inter-tight-latin-wght-normal.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 :root {
   color-scheme: dark;
   --bg: #000;
@@ -178,21 +186,13 @@ body::before {
   opacity: 0.42;
 }
 
-#linesCanvas,
 #cursorCanvas {
   position: fixed;
   inset: 0;
+  z-index: 500;
   width: 100%;
   height: 100%;
   pointer-events: none;
-}
-
-#linesCanvas {
-  z-index: 1;
-  opacity: 0.9;
-}
-#cursorCanvas {
-  z-index: 500;
 }
 
 @media (hover: hover) and (pointer: fine) {

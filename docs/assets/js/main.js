@@ -1,16 +1,17 @@
 import { lerIdiomaSalvo } from "./core.js";
 import { carregarIdioma } from "./i18n.js";
 import { renderProjetos } from "./projects.js";
-import { iniciarEfeitos } from "./effects.js";
+import { iniciarEfeitosInterativos, prepararEfeitos } from "./effects.js";
 import { iniciarIntro } from "./intro.js";
 import { atualizarReveals } from "./navigation.js";
 
 async function iniciarApp() {
   const carregado = await carregarIdioma(lerIdiomaSalvo());
   if (!carregado) renderProjetos();
-  await iniciarIntro();
+  prepararEfeitos();
+  await iniciarIntro(atualizarReveals);
   atualizarReveals();
-  iniciarEfeitos();
+  iniciarEfeitosInterativos();
 }
 
 iniciarApp().catch((erro) => {

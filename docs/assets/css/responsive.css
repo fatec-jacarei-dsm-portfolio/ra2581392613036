@@ -39,6 +39,13 @@
   .hero__scene {
     min-height: 600px;
   }
+  .hero__terminal {
+    right: -18%;
+    width: min(88vw, 620px);
+    opacity: 0.22;
+    transform: rotate(-4deg);
+    will-change: auto;
+  }
   .hero__panel {
     width: calc(100% - 48px);
   }
@@ -52,10 +59,6 @@
   .hero__panel h1,
   .hero__panel h2 {
     font-size: clamp(3.4rem, 12.5vw, 7rem);
-  }
-  .hero__signal {
-    left: 75%;
-    width: min(88vw, 620px);
   }
   .hero__counter {
     right: 24px;
@@ -138,15 +141,24 @@
     gap: 7px;
   }
   .contato__links {
-    width: min(100%, 360px);
-    flex-direction: column;
+    width: auto;
+    flex-direction: row;
   }
   .btn-contato {
     width: 100%;
   }
+  .contato__links .btn-contato--icone {
+    width: 58px;
+  }
 }
 
 @media (max-width: 500px) {
+  .hero__terminal {
+    top: 20%;
+    right: -34%;
+    width: 118vw;
+    opacity: 0.2;
+  }
   .navbar {
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 4px;
@@ -166,11 +178,6 @@
     padding: 8px 6px;
     font-size: 0.75rem;
     letter-spacing: 0.025em;
-  }
-  .navbar__nav-link::before,
-  .navbar__nav-link::after {
-    top: 8px;
-    left: 7px;
   }
   .navbar__lang {
     gap: 4px;
@@ -193,21 +200,13 @@
     transform: translateX(14px);
   }
   .hero {
-    height: 300svh;
-    min-height: 1800px;
+    height: 280svh;
+    min-height: 1680px;
   }
   .hero__panel h1,
   .hero__panel h2 {
     font-size: clamp(3.1rem, 16vw, 5.2rem);
     line-height: 0.92;
-  }
-  .hero__eyebrow {
-    max-width: 80%;
-    line-height: 1.5;
-  }
-  .hero__copy {
-    max-width: 88%;
-    font-size: 1rem;
   }
   .ticker {
     padding-top: 36px;
@@ -248,10 +247,6 @@
     padding-inline: 4px;
     font-size: 0.75rem;
   }
-  .navbar__nav-link::before,
-  .navbar__nav-link::after {
-    left: 4px;
-  }
   .navbar__lang {
     padding-inline: 6px;
   }
@@ -276,10 +271,14 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  #linesCanvas,
   #cursorCanvas,
   .cursor-pulse {
     display: none;
+  }
+  .hero__terminal-code code,
+  .hero__terminal-command code {
+    animation: none;
+    clip-path: none;
   }
   .reveal,
   .projeto-card,
