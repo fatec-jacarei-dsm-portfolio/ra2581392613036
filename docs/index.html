@@ -32,7 +32,13 @@
       type="font/woff2"
       crossorigin
     />
-
+    <link
+      rel="preload"
+      href="assets/fonts/inter-tight-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/navbar.css" />
     <link rel="stylesheet" href="assets/css/hero.css" />
@@ -207,37 +213,40 @@
       <main id="conteudo">
         <section class="hero" id="hero">
           <div class="hero__scene">
-            <div class="hero__signal" aria-hidden="true">
-              <span></span><span></span><span></span>
+            <div class="hero__terminal" aria-hidden="true">
+              <div class="hero__terminal-path">~/portfolio/src</div>
+              <div class="hero__terminal-code">
+                <span><i>01</i><code><b>const</b> project = {</code></span>
+                <span><i>02</i><code>interface: <em>"React"</em>,</code></span>
+                <span><i>03</i><code>server: <em>"Node.js"</em>,</code></span>
+                <span><i>04</i><code>database: <em>"PostgreSQL"</em>,</code></span>
+                <span><i>05</i><code>};</code></span>
+                <span><i>06</i><code><b>await</b> build(project);</code></span>
+              </div>
+              <div class="hero__terminal-command">
+                <span aria-hidden="true">›</span>
+                <code>npm run dev</code>
+              </div>
             </div>
-            <div class="hero__backdrop" aria-hidden="true">IANSEN</div>
 
             <div class="hero__panels">
               <article class="hero__panel hero__panel--1">
-                <p class="hero__eyebrow" data-i18n="hero.eyebrow.1">
-                  IGOR IANSEN / DESENVOLVEDOR FULL-STACK
-                </p>
                 <h1 data-i18n="hero.title.1">
-                  Código, ritmo e <em>curiosidade.</em>
+                  <span class="hero__ghost">Meu nome é</span>
+                  <em>Igor Iansen</em>
                 </h1>
               </article>
               <article class="hero__panel hero__panel--2">
-                <p class="hero__eyebrow" data-i18n="hero.eyebrow.2">DE PONTA A PONTA</p>
                 <h2 data-i18n="hero.title.2">
-                  Gosto de pegar uma ideia e levar até o fim.
+                  Desenvolvo para web,
+                  <span class="hero__ghost">do front ao back</span>
                 </h2>
-                <p class="hero__copy" data-i18n="hero.copy.2">
-                  Interface, API, regras de negócio e banco de dados.
-                </p>
               </article>
               <article class="hero__panel hero__panel--3">
-                <p class="hero__eyebrow" data-i18n="hero.eyebrow.3">NA PRÁTICA</p>
                 <h2 data-i18n="hero.title.3">
-                  Meu jeito de aprender é construindo.
+                  <span class="hero__ghost">E este é um pouco</span> do que já
+                  construí
                 </h2>
-                <p class="hero__copy" data-i18n="hero.copy.3">
-                  Projetos pessoais, acadêmicos e hackathons.
-                </p>
               </article>
             </div>
 
@@ -245,7 +254,7 @@
               <span>01</span> / 03
             </div>
             <div class="hero__scroll-cue" data-i18n="hero.scroll">
-              role para continuar <span>↓</span>
+              continue rolando <span>↓</span>
             </div>
           </div>
         </section>
