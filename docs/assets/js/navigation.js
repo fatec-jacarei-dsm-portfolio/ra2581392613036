@@ -23,6 +23,7 @@ const linksNavegacao = [...document.querySelectorAll(".navbar__links a")].map(
 let elementosReveal = [];
 let scrollAtual = scrollY;
 let atualizacaoScrollPendente = false;
+let quadroSmoothScroll = 0;
 
 export function atualizarElementosReveal() {
   elementosReveal = [
@@ -31,8 +32,7 @@ export function atualizarElementosReveal() {
 }
 
 export function atualizarReveals(
-  ativarElementos =
-    pagina.classList.contains("is-loaded") ||
+  ativarElementos = pagina.classList.contains("is-loaded") ||
     !pagina.classList.contains("is-loading"),
 ) {
   elementosReveal.forEach((elemento, indice) => {
@@ -60,10 +60,7 @@ export function atualizarReveals(
       "--reveal-scale",
       (0.978 + curva * 0.022).toFixed(4),
     );
-    elemento.classList.toggle(
-      "is-visible",
-      ativarElementos && progresso > 0.1,
-    );
+    elemento.classList.toggle("is-visible", ativarElementos && progresso > 0.1);
   });
 
   atualizarHero();
@@ -176,15 +173,19 @@ export function definirAlturaSpacer() {
 }
 
 function loopSmoothScroll() {
-  if (!paginaVisivel) {
-    requestAnimationFrame(loopSmoothScroll);
-    return;
-  }
+  quadroSmoothScroll = 0;
+  if (!paginaVisivel) return;
+
   scrollAtual += (scrollY - scrollAtual) * 0.075;
   if (Math.abs(scrollY - scrollAtual) < 0.05) scrollAtual = scrollY;
   scrollContainer.style.transform = `translate3d(0, ${-scrollAtual}px, 0)`;
   atualizarReveals();
-  requestAnimationFrame(loopSmoothScroll);
+  if (scrollAtual !== scrollY) agendarSmoothScroll();
+}
+
+function agendarSmoothScroll() {
+  if (quadroSmoothScroll || !paginaVisivel) return;
+  quadroSmoothScroll = requestAnimationFrame(loopSmoothScroll);
 }
 
 function posicaoDaSecao(elemento) {
@@ -212,6 +213,7 @@ document
   });
 
 addEventListener("scroll", atualizarEstadoNavbar, { passive: true });
+addEventListener("resize", agendarAtualizacaoScroll, { passive: true });
 atualizarEstadoNavbar();
 
 if (ehTouch || reduzirMovimento) {
@@ -229,6 +231,8 @@ atualizarReveals();
 
 if (!ehTouch && !reduzirMovimento) {
   definirAlturaSpacer();
-  requestAnimationFrame(loopSmoothScroll);
+  agendarSmoothScroll();
+  addEventListener("scroll", agendarSmoothScroll, { passive: true });
   addEventListener("load", definirAlturaSpacer);
+  document.addEventListener("visibilitychange", agendarSmoothScroll);
 }

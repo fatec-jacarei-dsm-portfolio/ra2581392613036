@@ -176,11 +176,6 @@
     font-size: 0.75rem;
     letter-spacing: 0.025em;
   }
-  .navbar__nav-link::before,
-  .navbar__nav-link::after {
-    top: 8px;
-    left: 7px;
-  }
   .navbar__lang {
     gap: 4px;
     min-height: 40px;
@@ -249,10 +244,6 @@
     padding-inline: 4px;
     font-size: 0.75rem;
   }
-  .navbar__nav-link::before,
-  .navbar__nav-link::after {
-    left: 4px;
-  }
   .navbar__lang {
     padding-inline: 6px;
   }
@@ -277,7 +268,6 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  #linesCanvas,
   #cursorCanvas,
   .cursor-pulse {
     display: none;
