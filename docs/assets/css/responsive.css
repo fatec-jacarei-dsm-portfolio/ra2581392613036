@@ -135,11 +135,6 @@
   .projetos__grid[data-view="list"] .projeto-card__abrir {
     display: inline-flex;
   }
-  .projeto-card__meta {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 7px;
-  }
   .contato__links {
     width: auto;
     flex-direction: row;

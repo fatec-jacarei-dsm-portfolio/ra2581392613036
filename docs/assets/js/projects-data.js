@@ -22,7 +22,7 @@ export const projetos = [
       "Figma",
     ],
     repo: "https://github.com/octopusCode26/scrum-dungeon",
-    semestre: { pt: "DSM · 1º semestre · 2026", en: "DSM · 1st semester · 2026" },
+    semestre: { pt: "1º semestre · 2026", en: "1st semester · 2026" },
     imagem: "assets/media/scrum-dungeon/cover.jpg",
     imagemLargura: 1200,
     imagemAltura: 800,

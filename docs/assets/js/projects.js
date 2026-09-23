@@ -15,6 +15,7 @@ const navbar = document.getElementById("navbar");
 let elementoFocoAnterior = null;
 let trocaEmAndamento = false;
 let videoAtivo = null;
+let temporizadorModal = 0;
 
 const mensagens = {
   pt: {
@@ -47,6 +48,7 @@ const interfaceAtual = () => mensagens[state.idiomaAtual] || mensagens.pt;
 
 function pararVideo(video = videoAtivo) {
   if (!video) return;
+  video.closest(".projeto-card")?.classList.remove("is-video-playing");
   video.pause();
   video.currentTime = 0;
   if (video === videoAtivo) videoAtivo = null;
@@ -124,13 +126,21 @@ export function renderProjetos() {
     if (video && !reduzirMovimento && !ehTouch) {
       video.defaultPlaybackRate = projeto.velocidadeVideo || 1;
       video.playbackRate = projeto.velocidadeVideo || 1;
-      card.addEventListener("mouseenter", () => {
+      card.addEventListener("mouseenter", async () => {
         if (videoAtivo !== video) pararVideo();
         video.playbackRate = projeto.velocidadeVideo || 1;
         videoAtivo = video;
-        video.play().catch(() => {});
+        try {
+          await video.play();
+          if (videoAtivo === video) card.classList.add("is-video-playing");
+        } catch {
+          card.classList.remove("is-video-playing");
+        }
       });
-      card.addEventListener("mouseleave", () => pararVideo(video));
+      card.addEventListener("mouseleave", () => {
+        card.classList.remove("is-video-playing");
+        pararVideo(video);
+      });
     }
     grid.appendChild(card);
   });
@@ -236,6 +246,7 @@ document.querySelectorAll(".view-btn").forEach((botao) => {
 });
 
 function abrirModal(projeto, origem) {
+  clearTimeout(temporizadorModal);
   elementoFocoAnterior = origem || document.activeElement;
   document.getElementById("modalCategoria").textContent = rotuloCategoria(
     projeto.categoria,
@@ -269,13 +280,40 @@ function abrirModal(projeto, origem) {
     "aria-label",
     `${interfaceAtual().repositorio}: ${projeto.nome}`,
   );
+
+  modalOverlay.classList.add("is-active");
+  const origemRect = origem?.getBoundingClientRect();
+  const modalRect = modal.getBoundingClientRect();
+  if (origemRect && modalRect.width && modalRect.height) {
+    const origemX = origemRect.left + origemRect.width / 2;
+    const origemY = origemRect.top + origemRect.height / 2;
+    const modalX = modalRect.left + modalRect.width / 2;
+    const modalY = modalRect.top + modalRect.height / 2;
+    const escala = Math.min(
+      0.86,
+      Math.max(
+        0.52,
+        Math.min(
+          origemRect.width / modalRect.width,
+          origemRect.height / modalRect.height,
+        ),
+      ),
+    );
+    modal.style.setProperty("--modal-from-x", `${origemX - modalX}px`);
+    modal.style.setProperty("--modal-from-y", `${origemY - modalY}px`);
+    modal.style.setProperty("--modal-from-scale", escala.toFixed(3));
+  }
+
   scrollContainer.inert = true;
   navbar.inert = true;
   modalOverlay.inert = false;
-  modalOverlay.classList.add("is-open");
   modalOverlay.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-aberto");
-  requestAnimationFrame(() => modalClose.focus());
+  modal.getBoundingClientRect();
+  requestAnimationFrame(() => {
+    modalOverlay.classList.add("is-open");
+    modalClose.focus();
+  });
 }
 
 function fecharModal() {
@@ -285,8 +323,18 @@ function fecharModal() {
   modalOverlay.inert = true;
   scrollContainer.inert = false;
   navbar.inert = false;
-  document.body.classList.remove("modal-aberto");
   if (elementoFocoAnterior?.isConnected) elementoFocoAnterior.focus();
+
+  const concluir = () => {
+    modalOverlay.classList.remove("is-active");
+    document.body.classList.remove("modal-aberto");
+  };
+
+  if (reduzirMovimento) {
+    concluir();
+    return;
+  }
+  temporizadorModal = setTimeout(concluir, 580);
 }
 
 modalClose.addEventListener("click", fecharModal);

@@ -8,13 +8,22 @@
   padding: 20px;
   background: rgba(0, 0, 0, 0.84);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  backdrop-filter: blur(10px);
-  transition: opacity 0.3s ease;
+  backdrop-filter: blur(0);
+  transition:
+    opacity 0.42s ease,
+    backdrop-filter 0.52s ease,
+    visibility 0s linear 0.52s;
+}
+.modal-overlay.is-active {
+  visibility: visible;
+  transition-delay: 0s;
 }
 .modal-overlay.is-open {
   opacity: 1;
   pointer-events: auto;
+  backdrop-filter: blur(10px);
 }
 .modal {
   position: relative;
@@ -23,32 +32,62 @@
   max-height: 88dvh;
   overflow: hidden auto;
   padding: clamp(32px, 5vw, 54px);
-  border: 1px solid var(--line-red);
+  border: 1px solid rgba(184, 50, 66, 0.18);
   border-radius: 28px;
   background: rgba(11, 11, 13, 0.94);
   box-shadow:
     0 38px 120px rgba(0, 0, 0, 0.8),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
   opacity: 0;
-  transform: translateY(18px) scale(0.96);
+  transform: translate3d(
+      var(--modal-from-x, 0),
+      var(--modal-from-y, 24px),
+      0
+    )
+    scale(var(--modal-from-scale, 0.82));
+  transform-origin: center;
   transition:
-    opacity 0.28s ease,
-    transform 0.38s var(--ease-out);
-}
-.modal::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 8%;
-  width: 84%;
-  height: 2px;
-  border-radius: 999px;
-  background: var(--blood-light);
-  box-shadow: 0 0 18px rgba(212, 58, 75, 0.5);
+    opacity 0.34s ease,
+    transform 0.58s cubic-bezier(0.16, 1, 0.3, 1),
+    border-radius 0.58s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 .modal-overlay.is-open .modal {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  border-radius: 28px;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+.modal > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.34s ease,
+    transform 0.48s var(--ease-out);
+}
+.modal-overlay.is-open .modal > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+.modal-overlay.is-open .modal > :nth-child(1) {
+  transition-delay: 0.12s;
+}
+.modal-overlay.is-open .modal > :nth-child(2) {
+  transition-delay: 0.15s;
+}
+.modal-overlay.is-open .modal > :nth-child(3) {
+  transition-delay: 0.18s;
+}
+.modal-overlay.is-open .modal > :nth-child(4) {
+  transition-delay: 0.21s;
+}
+.modal-overlay.is-open .modal > :nth-child(5) {
+  transition-delay: 0.24s;
+}
+.modal-overlay.is-open .modal > :nth-child(6) {
+  transition-delay: 0.27s;
+}
+.modal-overlay.is-open .modal > :nth-child(7) {
+  transition-delay: 0.3s;
 }
 .modal__close {
   position: absolute;
@@ -113,13 +152,20 @@
 }
 .modal__tech-list span {
   padding: 5px 11px;
-  border: 1px solid rgba(212, 58, 75, 0.3);
+  border: 1px solid rgba(184, 50, 66, 0.22);
   border-radius: 999px;
-  background: rgba(118, 21, 32, 0.17);
-  color: var(--blood-light);
+  background: rgba(184, 50, 66, 0.07);
+  color: rgba(210, 91, 105, 0.9);
   font-size: 0.82rem;
 }
 .modal .btn-contato {
   display: inline-grid;
   margin-top: 4px;
+  border-color: rgba(184, 50, 66, 0.24);
+  background: rgba(184, 50, 66, 0.025);
+}
+.modal .btn-contato:hover,
+.modal .btn-contato:focus-visible {
+  border-color: rgba(184, 50, 66, 0.42);
+  background: rgba(184, 50, 66, 0.09);
 }

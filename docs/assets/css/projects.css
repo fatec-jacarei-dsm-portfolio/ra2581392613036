@@ -161,28 +161,31 @@
   height: 100%;
   object-fit: cover;
   filter: saturate(0.72) contrast(1.08);
+  transform: scale(1);
+  transform-origin: center;
   transition:
-    transform 0.75s var(--ease-out),
-    filter 0.4s ease;
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.7s ease;
 }
 .projeto-card__media video {
   position: absolute;
   inset: 0;
   object-position: center top;
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    transform 0.75s var(--ease-out),
-    filter 0.4s ease;
+  filter: saturate(0.82) contrast(1.08) blur(7px);
+  transform: scale(1.07);
 }
 @media (hover: hover) and (pointer: fine) {
-  .projeto-card:hover .projeto-card__media img,
-  .projeto-card:hover .projeto-card__media video {
-    filter: saturate(0.92) contrast(1.12);
-    transform: scale(1.028);
+  .projeto-card.is-video-playing .projeto-card__media img {
+    opacity: 0;
+    filter: saturate(0.55) contrast(1.04) blur(9px);
+    transform: scale(0.94);
   }
-  .projeto-card:hover .projeto-card__media video {
+  .projeto-card.is-video-playing .projeto-card__media video {
     opacity: 1;
+    filter: saturate(0.92) contrast(1.12) blur(0);
+    transform: scale(1);
   }
 }
 
@@ -210,11 +213,12 @@
 }
 .projeto-card__meta {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 9px;
 }
 .projeto-card__categoria {
+  flex: 0 0 auto;
   padding: 6px 9px;
   border: 1px solid rgba(212, 58, 75, 0.28);
   border-radius: 999px;
@@ -226,18 +230,17 @@
 }
 .projeto-card__semestre {
   color: var(--text-dim);
-  font: 0.78rem/1.4 var(--font-mono);
+  font: 0.74rem/1.5 var(--font-mono);
+  letter-spacing: 0.025em;
 }
 .projeto-card__nome {
   margin: 22px 0 12px;
   font-size: clamp(2.2rem, 4vw, 3.65rem);
-  transition: transform 0.4s var(--ease-out);
 }
 .projeto-card__desc {
   color: var(--text-dim);
   font-size: 1rem;
   line-height: 1.75;
-  transition: transform 0.4s var(--ease-out);
 }
 .projeto-card__abrir {
   align-self: flex-start;
@@ -251,19 +254,11 @@
   letter-spacing: 0.1em;
   transition:
     background 0.25s ease,
-    border-color 0.25s ease,
-    transform 0.3s var(--ease-out);
-}
-.projeto-card:hover .projeto-card__nome {
-  transform: translateX(4px);
-}
-.projeto-card:hover .projeto-card__desc {
-  transform: translateX(2px);
+    border-color 0.25s ease;
 }
 .projeto-card:hover .projeto-card__abrir {
   background: rgba(212, 58, 75, 0.16);
   border-color: rgba(212, 58, 75, 0.74);
-  transform: translateX(4px);
 }
 
 .projetos__grid[data-view="list"] .projeto-card {
