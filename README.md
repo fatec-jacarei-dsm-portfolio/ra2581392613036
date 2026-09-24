@@ -2,7 +2,7 @@
 
 **Aluno:** Igor Miguel Iansen Toledo  
 **Curso:** Desenvolvimento de Software Multiplataforma  
-**Turma:** 1°Semestre - 2026
+**Turma:** 1º semestre de 2026
 
 ---
 
@@ -14,4 +14,8 @@
 
 **Vídeos de Apresentação**
 
-🎤 2DSM - [Vídeo](algum_dia_eu_gravo)
+🎤 2DSM - Vídeo ainda não produzido
+
+🎤 4DSM - Vídeo ainda não produzido
+
+🎤 6DSM - Vídeo ainda não produzido
