@@ -108,6 +108,11 @@
         html.is-loading .hero__counter {
           display: none;
         }
+        .reveal,
+        .info-card {
+          opacity: 1;
+          transform: none;
+        }
         #scrollContainer {
           position: static;
           transform: none;
@@ -120,9 +125,6 @@
     >
 
     <canvas id="cursorCanvas" aria-hidden="true"></canvas>
-    <div class="finale" id="finale">
-      <canvas id="galaxyCanvas" aria-hidden="true"></canvas>
-    </div>
     <svg class="svg-defs" aria-hidden="true">
       <filter id="grain-texture">
         <feTurbulence
@@ -160,6 +162,7 @@
         aria-label="Navegação principal"
         data-i18n-aria="aria.navegacao"
       >
+        <span class="navbar__indicator" aria-hidden="true"></span>
         <a
           class="navbar__nav-link"
           href="#sobre"
@@ -209,32 +212,30 @@
     </header>
 
     <div id="scrollContainer">
-      <main id="conteudo">
+      <main id="conteudo" tabindex="-1">
         <section class="hero" id="hero">
           <div class="hero__scene">
             <div class="hero__terminal" aria-hidden="true">
-              <div class="hero__terminal-path">~/portfolio/src</div>
+              <div class="hero__terminal-path">~/portfolio/assets/js/main.js</div>
               <div class="hero__terminal-code">
                 <span
-                  ><i>01</i><code><b>const</b> project = {</code></span
+                  ><i>01</i><code><b>async function</b> iniciarApp() {</code></span
                 >
                 <span
-                  ><i>02</i><code>interface: <em>"React"</em>,</code></span
+                  ><i>02</i><code>&nbsp;&nbsp;<b>await</b> carregarIdioma(lerIdiomaSalvo());</code></span
                 >
                 <span
-                  ><i>03</i><code>server: <em>"Node.js"</em>,</code></span
+                  ><i>03</i><code>&nbsp;&nbsp;renderProjetos();</code></span
                 >
                 <span
-                  ><i>04</i><code>database: <em>"PostgreSQL"</em>,</code></span
+                  ><i>04</i><code>&nbsp;&nbsp;prepararEfeitos();</code></span
                 >
-                <span><i>05</i><code>};</code></span>
                 <span
-                  ><i>06</i><code><b>await</b> build(project);</code></span
+                  ><i>05</i><code>&nbsp;&nbsp;<b>await</b> iniciarIntro(atualizarReveals);</code></span
                 >
-              </div>
-              <div class="hero__terminal-command">
-                <span aria-hidden="true">›</span>
-                <code>npm run dev</code>
+                <span
+                  ><i>06</i><code>}</code></span
+                >
               </div>
             </div>
 
@@ -549,8 +550,6 @@
           </div>
         </section>
 
-        <div class="soundwave" aria-hidden="true" id="soundwave"></div>
-
         <section class="projetos" id="projetos">
           <div class="projetos__header reveal">
             <div>
@@ -563,84 +562,58 @@
               </h2>
             </div>
 
-            <div class="projetos__controls">
-              <div
-                class="projetos__filtros"
-                aria-label="Filtrar projetos"
-                data-i18n-aria="aria.filtros"
+            <div
+              class="projetos__filtros"
+              role="group"
+              aria-label="Filtrar projetos"
+              data-i18n-aria="aria.filtros"
+            >
+              <span
+                class="projetos__filtro-indicator"
+                aria-hidden="true"
+              ></span>
+              <button
+                class="filtro-btn is-active"
+                type="button"
+                data-categoria="todos"
+                aria-pressed="true"
+                data-i18n="projetos.filtro.todos"
               >
-                <button
-                  class="filtro-btn is-active"
-                  type="button"
-                  data-categoria="todos"
-                  aria-pressed="true"
-                  data-i18n="projetos.filtro.todos"
-                >
-                  Todos
-                </button>
-                <button
-                  class="filtro-btn"
-                  type="button"
-                  data-categoria="academico"
-                  aria-pressed="false"
-                  data-i18n="projetos.filtro.academicos"
-                >
-                  Acadêmicos
-                </button>
-                <button
-                  class="filtro-btn"
-                  type="button"
-                  data-categoria="profissional"
-                  aria-pressed="false"
-                  data-i18n="projetos.filtro.profissionais"
-                >
-                  Profissionais
-                </button>
-                <button
-                  class="filtro-btn"
-                  type="button"
-                  data-categoria="pessoal"
-                  aria-pressed="false"
-                  data-i18n="projetos.filtro.pessoais"
-                >
-                  Pessoais
-                </button>
-              </div>
-
-              <div
-                class="projetos__view-toggle"
-                role="group"
-                aria-label="Modo de visualização"
-                data-i18n-aria="aria.visualizacao"
+                Todos
+              </button>
+              <button
+                class="filtro-btn"
+                type="button"
+                data-categoria="academico"
+                aria-pressed="false"
+                data-i18n="projetos.filtro.academicos"
               >
-                <button
-                  class="view-btn is-active"
-                  type="button"
-                  data-view="grid"
-                  aria-label="Visualização em grade"
-                  data-i18n-aria="aria.grade"
-                  aria-pressed="true"
-                >
-                  ▦
-                </button>
-                <button
-                  class="view-btn"
-                  type="button"
-                  data-view="list"
-                  aria-label="Visualização em lista"
-                  data-i18n-aria="aria.lista"
-                  aria-pressed="false"
-                >
-                  ☰
-                </button>
-              </div>
+                Acadêmicos
+              </button>
+              <button
+                class="filtro-btn"
+                type="button"
+                data-categoria="profissional"
+                aria-pressed="false"
+                data-i18n="projetos.filtro.profissionais"
+              >
+                Profissionais
+              </button>
+              <button
+                class="filtro-btn"
+                type="button"
+                data-categoria="pessoal"
+                aria-pressed="false"
+                data-i18n="projetos.filtro.pessoais"
+              >
+                Pessoais
+              </button>
             </div>
           </div>
 
           <div
             class="projetos__grid"
             id="projetosGrid"
-            data-view="grid"
             aria-live="polite"
           ></div>
         </section>
@@ -726,7 +699,6 @@
         <p data-i18n="footer.texto">© 2026 Igor Iansen</p>
       </footer>
 
-      <div class="galaxy-reveal" id="galaxyReveal" aria-hidden="true"></div>
     </div>
 
     <div id="scrollSpacer" aria-hidden="true"></div>
@@ -779,8 +751,8 @@
           class="btn-contato"
           target="_blank"
           rel="noopener"
-          data-i18n="modal.repo"
-          >Ver repositório →</a
+          ><span data-i18n="modal.repo">Ver repositório</span
+          ><span class="modal__repo-arrow" aria-hidden="true"></span></a
         >
       </div>
     </div>

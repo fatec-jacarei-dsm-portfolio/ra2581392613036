@@ -36,7 +36,7 @@
 .ticker__group {
   display: flex;
   flex: 0 0 auto;
-  gap: 10px;
+  gap: 12px;
   margin: 0;
   padding: 0 10px 0 0;
   list-style: none;
@@ -50,16 +50,15 @@
   place-items: center;
   align-content: center;
   gap: 11px;
-  border: 1px solid rgba(238, 233, 229, 0.12);
-  border-radius: 18px;
-  background: rgba(8, 8, 10, 0.58);
+  border: 1px solid rgba(238, 233, 229, 0.09);
+  border-radius: 14px;
+  background: var(--surface-soft);
   color: rgba(238, 233, 229, 0.7);
   transition:
-    color 0.25s ease,
-    border-color 0.25s ease,
-    background 0.25s ease,
-    transform 0.3s var(--ease-out),
-    box-shadow 0.3s ease;
+    color 0.42s ease,
+    border-color 0.48s var(--ease-calm),
+    background 0.5s var(--ease-calm),
+    opacity 0.4s ease;
 }
 
 .ticker-tech svg {
@@ -68,8 +67,8 @@
   fill: currentColor;
   opacity: 0.82;
   transition:
-    opacity 0.25s ease,
-    transform 0.35s var(--ease-out);
+    opacity 0.42s ease,
+    transform 0.52s var(--ease-calm);
 }
 .ticker-tech span {
   max-width: 100%;
@@ -83,16 +82,12 @@
 }
 .ticker-tech:hover {
   color: var(--text);
-  border-color: rgba(238, 233, 229, 0.3);
-  background: rgba(238, 233, 229, 0.055);
-  box-shadow:
-    inset 0 -2px 0 rgba(238, 233, 229, 0.16),
-    0 12px 32px rgba(0, 0, 0, 0.32);
-  transform: translateY(-3px);
+  border-color: rgba(184, 50, 66, 0.4);
+  background: rgba(184, 50, 66, 0.065);
 }
 .ticker-tech:hover svg {
   opacity: 1;
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 @keyframes ticker-scroll {
   to {
@@ -104,8 +99,18 @@
 .projeto-card,
 .info-card {
   opacity: var(--reveal-opacity, 0);
-  transform: translate3d(0, var(--reveal-y, 46px), 0)
-    scale(var(--reveal-scale, 0.978));
+  transform: translate3d(
+      var(--reveal-x, 0),
+      calc(var(--reveal-y, 46px) + var(--stack-pin-y, 0px)),
+      0
+    )
+    rotate(var(--reveal-rotation, 0deg)) scale(var(--reveal-scale, 0.978))
+    scale(var(--stack-scale, 1));
+}
+
+.projeto-card {
+  filter: brightness(var(--stack-brightness, 1))
+    saturate(var(--stack-saturation, 1));
 }
 
 .reveal.is-visible,

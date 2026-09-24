@@ -65,14 +65,51 @@
 }
 
 .navbar__links {
+  position: relative;
   display: flex;
   align-items: center;
   justify-self: center;
   gap: 3px;
 }
 
+.navbar__indicator {
+  --nav-indicator-scale: 0.94;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 0;
+  height: 0;
+  border: 1px solid rgba(184, 50, 66, 0.32);
+  border-radius: 999px;
+  background: rgba(184, 50, 66, 0.075);
+  box-shadow: 0 8px 24px rgba(85, 19, 27, 0.14);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(
+    var(--nav-indicator-x, 0),
+    var(--nav-indicator-y, 0),
+    0
+  ) scale(var(--nav-indicator-scale));
+  transform-origin: center;
+  transition:
+    width 0.58s cubic-bezier(0.22, 0.61, 0.36, 1),
+    height 0.58s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.58s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.3s ease;
+  will-change: width, height, transform;
+}
+.navbar__indicator.is-ready {
+  --nav-indicator-scale: 1;
+  opacity: 1;
+}
+.navbar__indicator.is-initializing {
+  transition: none;
+}
+
 .navbar__nav-link {
   position: relative;
+  z-index: 1;
   isolation: isolate;
   display: flex;
   min-height: 42px;
@@ -84,8 +121,9 @@
   letter-spacing: 0.05em;
   text-decoration: none;
   transition:
-    color 0.25s ease,
-    transform 0.25s var(--ease-out);
+    color 0.46s ease,
+    text-shadow 0.5s ease,
+    transform 0.56s var(--ease-calm);
 }
 
 .navbar__nav-link::before,
@@ -107,6 +145,8 @@
 .navbar__nav-link:hover,
 .navbar__nav-link:focus-visible {
   color: var(--text);
+  text-shadow: 0 0 14px rgba(184, 50, 66, 0.28);
+  transform: translateY(-1px);
 }
 
 .navbar__nav-link.is-current {

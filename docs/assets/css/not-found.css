@@ -9,11 +9,9 @@
   width: min(720px, 100%);
   padding: clamp(28px, 7vw, 64px);
   border: 1px solid var(--line);
-  border-radius: 28px;
-  background: rgba(8, 8, 9, 0.88);
-  box-shadow:
-    0 28px 90px rgba(0, 0, 0, 0.56),
-    inset 2px 0 0 var(--blood);
+  border-radius: var(--radius-lg);
+  background: var(--surface-soft);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
 }
 .erro small {
   color: var(--blood-light);

@@ -22,11 +22,22 @@ export const projetos = [
       "Figma",
     ],
     repo: "https://github.com/octopusCode26/scrum-dungeon",
-    semestre: { pt: "DSM · 1º semestre · 2026", en: "DSM · 1st semester · 2026" },
+    semestre: { pt: "1DSM — 1º Sem. 2026", en: "1DSM — 1st Sem. 2026" },
     imagem: "assets/media/scrum-dungeon/cover.jpg",
     imagemLargura: 1200,
     imagemAltura: 800,
     video: "assets/media/scrum-dungeon/demo.mp4",
     velocidadeVideo: 1.5,
+  },
+  {
+    emBreve: true,
+    faixa: 2,
+    nome: { pt: "Em breve", en: "Coming soon" },
+    status: { pt: "Não lançado", en: "Unreleased" },
+    lancamento: { pt: "Faixa 02", en: "Track 02" },
+    descricao: {
+      pt: "Algumas faixas ainda não têm nome.",
+      en: "Some tracks do not have a name yet.",
+    },
   },
 ];

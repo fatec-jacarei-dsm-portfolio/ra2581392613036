@@ -120,20 +120,6 @@
   will-change: opacity, transform;
 }
 
-.hero__scene::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: linear-gradient(
-    110deg,
-    transparent 32%,
-    rgba(255, 255, 255, 0.025) 50%,
-    transparent 68%
-  );
-  transform: translateX(var(--hero-light-x, 0%));
-}
-
 .hero__terminal {
   position: absolute;
   top: 16%;
@@ -148,30 +134,7 @@
     translate3d(var(--terminal-x, 0px), var(--terminal-y, 0px), 0)
     rotateY(-9deg) rotateZ(-2deg);
   transform-origin: 100% 50%;
-  -webkit-mask-image: linear-gradient(
-    110deg,
-    transparent 2%,
-    #000 28%,
-    #000 72%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    110deg,
-    transparent 2%,
-    #000 28%,
-    #000 72%,
-    transparent 100%
-  );
   will-change: transform;
-}
-
-.hero__terminal::before {
-  content: "";
-  position: absolute;
-  inset: -20% -8%;
-  z-index: -1;
-  background: radial-gradient(ellipse, rgba(184, 50, 66, 0.07), transparent 64%);
-  pointer-events: none;
 }
 
 .hero__terminal-path {
@@ -199,8 +162,7 @@
   user-select: none;
 }
 
-.hero__terminal-code code,
-.hero__terminal-command code {
+.hero__terminal-code code {
   display: block;
   width: fit-content;
   overflow: hidden;
@@ -208,18 +170,9 @@
   clip-path: inset(0 100% 0 0);
 }
 
-.hero__terminal-command code {
-  border-right: 1px solid transparent;
-}
-
 .hero__terminal-code b {
   color: rgba(217, 248, 255, 0.68);
   font-weight: 400;
-}
-
-.hero__terminal-code em {
-  color: rgba(184, 50, 66, 0.72);
-  font-style: normal;
 }
 
 .is-loaded .hero__terminal-code span:nth-child(1) code {
@@ -246,33 +199,9 @@
   animation: terminal-type 0.9s steps(21, end) 2.95s forwards;
 }
 
-.hero__terminal-command {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 28px 0 0 4.2rem;
-  color: rgba(238, 233, 229, 0.36);
-}
-
-.hero__terminal-command > span {
-  color: var(--blood-light);
-}
-
-.is-loaded .hero__terminal-command code {
-  animation:
-    terminal-type 0.75s steps(11, end) 4s forwards,
-    terminal-caret 0.85s step-end 4s infinite;
-}
-
 @keyframes terminal-type {
   to {
     clip-path: inset(0);
-  }
-}
-
-@keyframes terminal-caret {
-  50% {
-    border-right-color: rgba(238, 233, 229, 0.72);
   }
 }
 
@@ -349,28 +278,6 @@
 .hero__ghost {
   display: block;
   color: rgba(238, 233, 229, 0.5);
-}
-
-@supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  .hero__ghost {
-    background: linear-gradient(
-      180deg,
-      rgba(238, 233, 229, 0.78),
-      rgba(238, 233, 229, 0.2)
-    );
-    background-clip: text;
-    color: transparent;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .hero__panel em {
-    background: linear-gradient(180deg, #d34a59 0%, #b83242 46%, #68151f 100%);
-    background-clip: text;
-    color: transparent;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
 }
 
 .hero__counter {
