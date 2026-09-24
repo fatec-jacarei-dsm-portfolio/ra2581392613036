@@ -6,7 +6,8 @@
   align-items: center;
   gap: clamp(48px, 9vw, 118px);
   margin-inline: auto;
-  padding: clamp(105px, 13vw, 165px) var(--page-pad);
+  padding: clamp(105px, 13vw, 165px) var(--page-pad)
+    clamp(82px, 9vw, 112px);
 }
 
 .sobre__foto {
@@ -16,6 +17,8 @@
   height: 320px;
   flex: 0 0 auto;
   filter: drop-shadow(0 0 34px rgba(118, 21, 32, 0.16));
+  transform: translate3d(var(--about-x, 0), var(--about-y, 0), 0)
+    rotate(var(--about-rotation, 0deg));
 }
 
 .profile-photo {
@@ -42,7 +45,7 @@
 .vine__stem--1 {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  transition: stroke-dashoffset 2s ease;
+  transition: stroke-dashoffset 2.15s var(--ease-calm);
 }
 .vine__leaf,
 .vine__thorn {
@@ -51,8 +54,8 @@
   transform-box: fill-box;
   transform-origin: center;
   transition:
-    opacity 0.5s ease var(--delay),
-    transform 0.5s ease var(--delay);
+    opacity 0.65s ease var(--delay),
+    transform 0.7s var(--ease-calm) var(--delay);
 }
 .leaf__blade {
   fill: rgba(118, 21, 32, 0.72);
@@ -66,27 +69,26 @@
   stroke-width: 1.2;
   stroke-linecap: round;
 }
-.sobre.is-visible .vine__stem--1 {
+.sobre.is-flower-ready .vine__stem--1 {
   stroke-dashoffset: 0;
 }
-.sobre.is-visible .vine__leaf,
-.sobre.is-visible .vine__thorn {
+.sobre.is-flower-ready .vine__leaf,
+.sobre.is-flower-ready .vine__thorn {
   opacity: 0.85;
   transform: scale(1);
 }
-
 .petal {
   fill: #090002;
-  fill-opacity: 0;
   stroke: var(--blood-light);
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
+  fill-opacity: 0;
   transition:
-    stroke-dashoffset 0.7s ease,
-    fill-opacity 0.45s ease;
+    stroke-dashoffset 0.82s var(--ease-calm),
+    fill-opacity 0.6s ease;
 }
 .petal--inner {
   fill: #120003;
@@ -126,18 +128,26 @@
   stroke-linecap: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  transition: stroke-dashoffset 0.65s ease 2.9s;
+  transition: stroke-dashoffset 0.78s var(--ease-calm) 2.9s;
 }
-.sobre.is-visible .petal {
+.sobre.is-flower-ready .petal {
   stroke-dashoffset: 0;
   fill-opacity: 1;
 }
-.sobre.is-visible .rose__spiral {
+.sobre.is-flower-ready .rose__spiral {
   stroke-dashoffset: 0;
+}
+.sobre.is-flower-resetting .vine__stem--1,
+.sobre.is-flower-resetting .vine__leaf,
+.sobre.is-flower-resetting .vine__thorn,
+.sobre.is-flower-resetting .petal,
+.sobre.is-flower-resetting .rose__spiral {
+  transition: none;
 }
 
 .sobre__conteudo {
   position: relative;
+  transform: translate3d(var(--about-x, 0), var(--about-y, 0), 0);
 }
 .sobre__conteudo h2,
 .projetos__header h2,
@@ -175,57 +185,33 @@
 .sobre__interesses {
   display: flex;
   flex-wrap: wrap;
-  gap: 9px;
+  gap: 8px;
   margin-top: 28px;
   list-style: none;
 }
 .sobre__interesses li {
-  padding: 7px 12px;
-  border: 1px solid rgba(212, 58, 75, 0.27);
-  border-radius: 999px;
-  background: rgba(212, 58, 75, 0.055);
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
   color: #c9c1bf;
   font: 0.78rem/1.2 var(--font-mono);
   letter-spacing: 0.055em;
   text-transform: uppercase;
   transition:
-    color 0.25s ease,
-    background 0.25s ease,
-    transform 0.25s var(--ease-out);
-}
-.sobre__interesses li:hover {
-  color: var(--text);
-  background: rgba(238, 233, 229, 0.07);
-  transform: translateY(-2px);
+    color 0.38s ease,
+    background 0.48s var(--ease-calm),
+    border-color 0.48s var(--ease-calm),
+    box-shadow 0.52s var(--ease-calm),
+    transform 0.52s var(--ease-calm);
 }
 
-.soundwave {
-  display: flex;
-  width: 100%;
-  height: 66px;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  overflow: hidden;
-  padding-inline: var(--page-pad);
-}
-.soundwave span {
-  width: 2px;
-  min-height: 2px;
-  height: var(--wave-height, 12px);
-  border-radius: 2px;
-  background: var(--blood-light);
-  opacity: 0.44;
-  animation: soundwave-pulse var(--wave-duration, 1s) ease-in-out
-    var(--wave-delay, 0s) infinite alternate;
-}
-@keyframes soundwave-pulse {
-  from {
-    opacity: 0.18;
-    transform: scaleY(0.13);
-  }
-  to {
-    opacity: 0.66;
-    transform: scaleY(1);
+@media (hover: hover) and (pointer: fine) {
+  .sobre__interesses li:hover {
+    color: var(--text);
+    background: rgba(184, 50, 66, 0.075);
+    border-color: rgba(184, 50, 66, 0.4);
+    box-shadow: 0 8px 22px rgba(85, 19, 27, 0.16);
+    transform: translateY(-2px);
   }
 }
