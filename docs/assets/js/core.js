@@ -6,7 +6,6 @@ export const ehTouch = matchMedia("(pointer: coarse)").matches;
 export const state = {
   idiomaAtual: "pt",
   categoriaAtiva: "todos",
-  viewAtiva: "grid",
   traducoes: {},
 };
 

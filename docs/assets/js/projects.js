@@ -12,6 +12,8 @@ const modal = modalOverlay.querySelector(".modal");
 const modalClose = document.getElementById("modalClose");
 const scrollContainer = document.getElementById("scrollContainer");
 const navbar = document.getElementById("navbar");
+const filtros = document.querySelector(".projetos__filtros");
+const indicadorFiltro = filtros?.querySelector(".projetos__filtro-indicator");
 let elementoFocoAnterior = null;
 let trocaEmAndamento = false;
 let videoAtivo = null;
@@ -58,6 +60,22 @@ function rotuloCategoria(categoria) {
   return interfaceAtual().categorias[categoria] || categoria;
 }
 
+function atualizarIndicadorFiltro(botao, imediato = false) {
+  if (!indicadorFiltro || !botao) return;
+  indicadorFiltro.classList.toggle("is-initializing", imediato);
+  indicadorFiltro.style.width = `${botao.offsetWidth}px`;
+  indicadorFiltro.style.height = `${botao.offsetHeight}px`;
+  indicadorFiltro.style.setProperty("--indicator-x", `${botao.offsetLeft}px`);
+  indicadorFiltro.style.setProperty("--indicator-y", `${botao.offsetTop}px`);
+  indicadorFiltro.classList.add("is-ready");
+
+  if (imediato) {
+    requestAnimationFrame(() => {
+      indicadorFiltro.classList.remove("is-initializing");
+    });
+  }
+}
+
 export function renderProjetos() {
   pararVideo();
   const filtrados =
@@ -68,7 +86,6 @@ export function renderProjetos() {
         );
 
   grid.replaceChildren();
-  grid.dataset.view = state.viewAtiva;
 
   if (!filtrados.length) {
     const vazio = document.createElement("p");
@@ -82,35 +99,59 @@ export function renderProjetos() {
   }
 
   filtrados.forEach((projeto, index) => {
+    const numeroFaixa = String(projeto.faixa || index + 1).padStart(2, "0");
+    const nomeProjeto = texto(projeto.nome);
+    const card = document.createElement("article");
+    card.style.zIndex = String(index + 1);
+
+    if (projeto.emBreve) {
+      card.className = "projeto-card projeto-card--coming-soon";
+      card.innerHTML = `
+        <div class="projeto-card__media projeto-card__media--placeholder" aria-hidden="true">
+          <span class="projeto-card__track">TRACK ${numeroFaixa}</span>
+        </div>
+        <div class="projeto-card__body">
+          <div class="projeto-card__meta">
+            <span class="projeto-card__categoria">${texto(projeto.status)}</span>
+            <span class="projeto-card__semestre">${texto(projeto.lancamento)}</span>
+          </div>
+          <h3 class="projeto-card__nome glitch-heading" data-text="${nomeProjeto}">${nomeProjeto}</h3>
+          <p class="projeto-card__desc">${texto(projeto.descricao)}</p>
+        </div>`;
+      grid.appendChild(card);
+      return;
+    }
+
     const dimensoesImagem =
       projeto.imagemLargura && projeto.imagemAltura
         ? ` width="${projeto.imagemLargura}" height="${projeto.imagemAltura}"`
         : "";
-    const card = document.createElement("article");
     card.className = "projeto-card";
     card.tabIndex = 0;
     card.setAttribute("role", "button");
     card.setAttribute("aria-haspopup", "dialog");
     card.setAttribute(
       "aria-label",
-      `${interfaceAtual().abrir}: ${projeto.nome}`,
+      `${interfaceAtual().abrir}: ${nomeProjeto}`,
     );
-    card.style.zIndex = String(index + 1);
 
     card.innerHTML = `
       <div class="projeto-card__media">
-        <img src="${projeto.imagem}" alt="${interfaceAtual().capa}: ${projeto.nome}"${dimensoesImagem} loading="lazy" decoding="async">
+        <img src="${projeto.imagem}" alt="${interfaceAtual().capa}: ${nomeProjeto}"${dimensoesImagem} loading="lazy" decoding="async">
         ${projeto.video ? `<video src="${projeto.video}" muted loop playsinline preload="metadata" aria-hidden="true"></video>` : ""}
-        <span class="projeto-card__track" aria-hidden="true">TRACK ${String(index + 1).padStart(2, "0")}</span>
+        <span class="projeto-card__track" aria-hidden="true">TRACK ${numeroFaixa}</span>
       </div>
       <div class="projeto-card__body">
         <div class="projeto-card__meta">
           <span class="projeto-card__categoria">${rotuloCategoria(projeto.categoria)}</span>
           <span class="projeto-card__semestre">${texto(projeto.semestre)}</span>
         </div>
-        <h3 class="projeto-card__nome glitch-heading" data-text="${projeto.nome}">${projeto.nome}</h3>
+        <h3 class="projeto-card__nome glitch-heading" data-text="${nomeProjeto}">${nomeProjeto}</h3>
         <p class="projeto-card__desc">${texto(projeto.descricao)}</p>
-        <span class="projeto-card__abrir" aria-hidden="true">${interfaceAtual().acao} ↗</span>
+        <span class="projeto-card__abrir" aria-hidden="true">
+          ${interfaceAtual().acao}
+          <span class="projeto-card__abrir-seta"></span>
+        </span>
       </div>`;
 
     const abrir = () => abrirModal(projeto, card);
@@ -159,59 +200,65 @@ async function animarTrocaProjetos(atualizarEstado) {
   }
 
   trocaEmAndamento = true;
-  const controles = [...document.querySelectorAll(".filtro-btn, .view-btn")];
-  controles.forEach((controle) => {
-    controle.disabled = true;
-  });
   grid.setAttribute("aria-busy", "true");
+  grid.classList.add("is-filtering");
+  let projetosRenderizados = false;
+
+  const atualizarProjetos = () => {
+    if (projetosRenderizados) return;
+    projetosRenderizados = true;
+    renderProjetos();
+  };
 
   try {
-    const saida = grid.animate(
-      [
-        {
-          opacity: 1,
-          transform: "translate3d(0, 0, 0) scale(1)",
-          filter: "blur(0)",
-        },
-        {
-          opacity: 0,
-          transform: "translate3d(0, 18px, 0) scale(.985)",
-          filter: "blur(5px)",
-        },
-      ],
-      { duration: 180, easing: "cubic-bezier(.4, 0, 1, 1)", fill: "forwards" },
-    );
-    await saida.finished.catch(() => {});
-    saida.cancel();
-
     atualizarEstado();
-    renderProjetos();
+    await new Promise((resolve) => setTimeout(resolve, 220));
 
-    const entrada = grid.animate(
-      [
+    const itensAtuais = [...grid.children];
+    const saidas = itensAtuais.map((item, indice) =>
+      item.animate(
+        [
+          { opacity: getComputedStyle(item).opacity, translate: "0 0" },
+          { opacity: 0, translate: "0 28px" },
+        ],
         {
-          opacity: 0,
-          transform: "translate3d(0, -14px, 0) scale(.99)",
-          filter: "blur(5px)",
+          duration: 500,
+          delay: indice * 75,
+          easing: "cubic-bezier(.4, 0, .2, 1)",
+          fill: "forwards",
         },
-        {
-          opacity: 1,
-          transform: "translate3d(0, 0, 0) scale(1)",
-          filter: "blur(0)",
-        },
-      ],
-      {
-        duration: 360,
-        easing: "cubic-bezier(.16, 1, .3, 1)",
-        fill: "forwards",
-      },
+      ),
     );
-    await entrada.finished.catch(() => {});
-    entrada.cancel();
+    await Promise.all(
+      saidas.map((animacao) => animacao.finished.catch(() => {})),
+    );
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    atualizarProjetos();
+
+    const novosItens = [...grid.children];
+    const entradas = novosItens.map((item, indice) =>
+      item.animate(
+        [
+          { opacity: 0, translate: "0 28px" },
+          { opacity: 0.55, translate: "0 11px", offset: 0.48 },
+          { opacity: getComputedStyle(item).opacity, translate: "0 0" },
+        ],
+        {
+          duration: 700,
+          delay: (novosItens.length - 1 - indice) * 80,
+          easing: "cubic-bezier(.22, .61, .36, 1)",
+          fill: "backwards",
+        },
+      ),
+    );
+    await Promise.all(
+      entradas.map((animacao) => animacao.finished.catch(() => {})),
+    );
+  } catch {
+    atualizarProjetos();
   } finally {
-    controles.forEach((controle) => {
-      controle.disabled = false;
-    });
+    grid.classList.remove("is-filtering");
     grid.removeAttribute("aria-busy");
     trocaEmAndamento = false;
   }
@@ -226,34 +273,36 @@ document.querySelectorAll(".filtro-btn").forEach((botao) => {
         item.classList.toggle("is-active", ativo);
         item.setAttribute("aria-pressed", String(ativo));
       });
+      atualizarIndicadorFiltro(botao);
       state.categoriaAtiva = botao.dataset.categoria;
     });
   });
 });
 
-document.querySelectorAll(".view-btn").forEach((botao) => {
-  botao.addEventListener("click", () => {
-    if (botao.dataset.view === state.viewAtiva) return;
-    animarTrocaProjetos(() => {
-      document.querySelectorAll(".view-btn").forEach((item) => {
-        const ativo = item === botao;
-        item.classList.toggle("is-active", ativo);
-        item.setAttribute("aria-pressed", String(ativo));
-      });
-      state.viewAtiva = botao.dataset.view;
-    });
-  });
+requestAnimationFrame(() => {
+  atualizarIndicadorFiltro(document.querySelector(".filtro-btn.is-active"), true);
 });
+
+if ("ResizeObserver" in window && filtros) {
+  const observadorFiltros = new ResizeObserver(() => {
+    atualizarIndicadorFiltro(document.querySelector(".filtro-btn.is-active"));
+  });
+  filtros.querySelectorAll(".filtro-btn").forEach((botao) => {
+    observadorFiltros.observe(botao);
+  });
+}
 
 function abrirModal(projeto, origem) {
   clearTimeout(temporizadorModal);
+  pararVideo();
   elementoFocoAnterior = origem || document.activeElement;
+  const nomeProjeto = texto(projeto.nome);
   document.getElementById("modalCategoria").textContent = rotuloCategoria(
     projeto.categoria,
   );
   const titulo = document.getElementById("modalTitle");
-  titulo.textContent = projeto.nome;
-  titulo.dataset.text = projeto.nome;
+  titulo.textContent = nomeProjeto;
+  titulo.dataset.text = nomeProjeto;
   document.getElementById("modalSemestre").textContent = texto(
     projeto.semestre,
   );
@@ -278,7 +327,7 @@ function abrirModal(projeto, origem) {
   repo.hidden = !projeto.repo;
   repo.setAttribute(
     "aria-label",
-    `${interfaceAtual().repositorio}: ${projeto.nome}`,
+    `${interfaceAtual().repositorio}: ${nomeProjeto}`,
   );
 
   modalOverlay.classList.add("is-active");

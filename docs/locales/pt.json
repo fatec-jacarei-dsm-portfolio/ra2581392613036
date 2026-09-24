@@ -9,9 +9,6 @@
   "aria.stack": "Tecnologias e ferramentas",
   "aria.interesses": "Áreas de interesse",
   "aria.filtros": "Filtrar projetos",
-  "aria.visualizacao": "Modo de visualização",
-  "aria.grade": "Visualização em grade",
-  "aria.lista": "Visualização em lista",
   "aria.fechar": "Fechar",
   "aria.idioma": "Mudar para inglês",
   "aria.pular": "Pular para o conteúdo",
@@ -46,6 +43,6 @@
   "modal.descricao": "Descrição",
   "modal.contribuicao": "O que eu fiz",
   "modal.tecnologias": "Tecnologias",
-  "modal.repo": "Ver repositório →",
+  "modal.repo": "Ver repositório",
   "footer.texto": "© 2026 Igor Iansen"
 }
