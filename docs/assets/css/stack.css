@@ -105,17 +105,3 @@
 .info-card.is-visible {
   pointer-events: auto;
 }
-
-[data-i18n]:not(.skip-link),
-#projetosGrid {
-  transition:
-    opacity var(--motion-medium) ease,
-    transform var(--motion-slow) var(--ease-ui),
-    filter var(--motion-medium) ease;
-}
-html.is-changing-language [data-i18n]:not(.skip-link),
-html.is-changing-language #projetosGrid {
-  opacity: 0;
-  transform: translateY(-5px);
-  filter: blur(3px);
-}
