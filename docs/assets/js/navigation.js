@@ -36,6 +36,7 @@ let quadroSmoothScroll = 0;
 let linkNavbarAtual = null;
 let linkNavbarEmInteracao = null;
 let linkNavbarDestino = null;
+let quadroIndicadorNavbar = 0;
 
 function atualizarIndicadorNavbar(
   link,
@@ -43,7 +44,18 @@ function atualizarIndicadorNavbar(
   visivel = Boolean(link),
 ) {
   if (!indicadorNavbar) return;
-  indicadorNavbar.classList.toggle("is-initializing", imediato);
+  cancelAnimationFrame(quadroIndicadorNavbar);
+  quadroIndicadorNavbar = 0;
+
+  const deveFazerFade =
+    Boolean(link) &&
+    visivel &&
+    !imediato &&
+    !indicadorNavbar.classList.contains("is-ready");
+  indicadorNavbar.classList.toggle(
+    "is-initializing",
+    imediato || deveFazerFade,
+  );
 
   if (!link) {
     indicadorNavbar.classList.remove("is-ready");
@@ -58,11 +70,20 @@ function atualizarIndicadorNavbar(
       "--nav-indicator-y",
       `${link.offsetTop}px`,
     );
-    indicadorNavbar.classList.toggle("is-ready", visivel);
+    indicadorNavbar.classList.toggle(
+      "is-ready",
+      visivel && !deveFazerFade,
+    );
   }
 
-  if (imediato) {
-    requestAnimationFrame(() => {
+  if (deveFazerFade) {
+    void indicadorNavbar.offsetWidth;
+    indicadorNavbar.classList.remove("is-initializing");
+    void indicadorNavbar.offsetWidth;
+    indicadorNavbar.classList.add("is-ready");
+  } else if (imediato) {
+    quadroIndicadorNavbar = requestAnimationFrame(() => {
+      quadroIndicadorNavbar = 0;
       indicadorNavbar.classList.remove("is-initializing");
     });
   }
@@ -71,11 +92,7 @@ function atualizarIndicadorNavbar(
 function restaurarIndicadorNavbar() {
   linkNavbarEmInteracao = null;
   const destino = linkNavbarDestino || linkNavbarAtual;
-  atualizarIndicadorNavbar(
-    destino || linksNavegacao[0]?.link,
-    false,
-    Boolean(destino),
-  );
+  atualizarIndicadorNavbar(destino);
 }
 
 export function atualizarElementosReveal() {
@@ -155,7 +172,11 @@ export function atualizarReveals(
 }
 
 function atualizarSobre(rect = sobre?.getBoundingClientRect()) {
-  if (!sobre || !rect || reduzirMovimento) return;
+  if (!sobre || !rect) return;
+  if (reduzirMovimento) {
+    sobre.classList.add("is-flower-ready");
+    return;
+  }
 
   const progresso = limitar(
     (innerHeight * 0.9 - rect.top) / (innerHeight * 0.82),
@@ -379,11 +400,7 @@ function atualizarInterfaceScroll() {
 
   if (estadoAlterado && !linkNavbarEmInteracao) {
     const destino = linkNavbarDestino || linkNavbarAtual;
-    atualizarIndicadorNavbar(
-      destino || linksNavegacao[0]?.link,
-      false,
-      Boolean(destino),
-    );
+    atualizarIndicadorNavbar(destino);
   }
 }
 
@@ -440,7 +457,7 @@ document
       } else if (link.classList.contains("navbar__home")) {
         linkNavbarDestino = null;
         linkNavbarEmInteracao = null;
-        atualizarIndicadorNavbar(linksNavegacao[0]?.link, false, false);
+        atualizarIndicadorNavbar(null);
       }
 
       scrollTo({

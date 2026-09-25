@@ -54,8 +54,8 @@
   height: auto;
   transform: rotate(-8deg);
   transition:
-    transform 0.65s cubic-bezier(0.34, 1.4, 0.64, 1),
-    filter 0.25s ease;
+    transform var(--motion-slow) cubic-bezier(0.34, 1.4, 0.64, 1),
+    filter var(--motion-medium) ease;
 }
 
 .navbar__home:hover img,
@@ -73,7 +73,7 @@
 }
 
 .navbar__indicator {
-  --nav-indicator-scale: 0.94;
+  --nav-indicator-scale: 0.97;
   position: absolute;
   top: 0;
   left: 0;
@@ -84,6 +84,7 @@
   border-radius: 999px;
   background: rgba(184, 50, 66, 0.075);
   box-shadow: 0 8px 24px rgba(85, 19, 27, 0.14);
+  filter: blur(1.5px);
   opacity: 0;
   pointer-events: none;
   transform: translate3d(
@@ -93,15 +94,17 @@
   ) scale(var(--nav-indicator-scale));
   transform-origin: center;
   transition:
-    width 0.58s cubic-bezier(0.22, 0.61, 0.36, 1),
-    height 0.58s cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 0.58s cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 0.3s ease;
+    width var(--motion-slow) var(--ease-ui),
+    height var(--motion-slow) var(--ease-ui),
+    transform var(--motion-slow) var(--ease-ui),
+    opacity var(--motion-slow) linear,
+    filter var(--motion-slow) linear;
   will-change: width, height, transform;
 }
 .navbar__indicator.is-ready {
   --nav-indicator-scale: 1;
   opacity: 1;
+  filter: blur(0);
 }
 .navbar__indicator.is-initializing {
   transition: none;
@@ -121,9 +124,9 @@
   letter-spacing: 0.05em;
   text-decoration: none;
   transition:
-    color 0.46s ease,
-    text-shadow 0.5s ease,
-    transform 0.56s var(--ease-calm);
+    color var(--motion-medium) ease,
+    text-shadow var(--motion-medium) ease,
+    transform var(--motion-slow) var(--ease-ui);
 }
 
 .navbar__nav-link::before,
@@ -254,20 +257,17 @@
   gap: 7px;
   min-height: 42px;
   padding: 7px 11px;
-  border: 1px solid var(--line);
+  border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.025);
+  background: transparent;
   color: var(--text-dim);
   cursor: pointer;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   transform-origin: center;
   transition:
-    color 0.25s ease,
-    background 0.25s ease,
-    border-color 0.25s ease,
-    opacity 0.18s ease,
-    transform 0.18s ease,
-    filter 0.18s ease;
+    color var(--motion-medium) ease,
+    opacity var(--motion-fast) ease,
+    transform var(--motion-medium) var(--ease-ui),
+    filter var(--motion-medium) ease;
 }
 
 .navbar__lang-label {
@@ -276,8 +276,8 @@
   letter-spacing: 0.08em;
   text-align: center;
   transition:
-    color 0.3s ease,
-    opacity 0.3s ease;
+    color var(--motion-medium) ease,
+    opacity var(--motion-medium) ease;
 }
 
 .navbar__lang-label--pt,
@@ -302,9 +302,9 @@
   background: rgba(255, 255, 255, 0.08);
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.55);
   transition:
-    background 0.35s ease,
-    border-color 0.35s ease,
-    box-shadow 0.35s ease;
+    background var(--motion-medium) ease,
+    border-color var(--motion-medium) ease,
+    box-shadow var(--motion-medium) ease;
 }
 
 .navbar__lang-thumb {
@@ -319,8 +319,27 @@
     0 2px 6px rgba(0, 0, 0, 0.55),
     inset 0 1px 0 #fff;
   transition:
-    transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background 0.3s ease;
+    transform 0.54s cubic-bezier(0.32, 1.32, 0.38, 1),
+    background var(--motion-medium) ease,
+    box-shadow var(--motion-medium) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .navbar__lang:hover .navbar__lang-track {
+    border-color: rgba(255, 255, 255, 0.24);
+    background: rgba(255, 255, 255, 0.11);
+  }
+
+  .navbar__lang:hover .navbar__lang-thumb {
+    box-shadow:
+      0 3px 9px rgba(0, 0, 0, 0.58),
+      inset 0 1px 0 #fff;
+  }
+
+  .navbar__lang.is-en:hover .navbar__lang-track {
+    border-color: rgba(184, 50, 66, 0.48);
+    background: rgba(184, 50, 66, 0.24);
+  }
 }
 
 .navbar__lang.is-en .navbar__lang-track {
