@@ -114,11 +114,11 @@
   line-height: 1;
   transform-origin: center;
   transition:
-    color var(--motion-medium) ease,
-    background var(--motion-medium) var(--ease-ui),
-    border-color var(--motion-medium) var(--ease-ui),
-    box-shadow var(--motion-slow) var(--ease-ui),
-    transform var(--motion-medium) var(--ease-ui);
+    color var(--motion-hover) var(--ease-hover),
+    background var(--motion-hover) var(--ease-hover),
+    border-color var(--motion-hover) var(--ease-hover),
+    box-shadow var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 .modal__close::before,
 .modal__close::after {
@@ -205,11 +205,11 @@
   border-color: rgba(184, 50, 66, 0.24);
   background: rgba(184, 50, 66, 0.025);
   transition:
-    color var(--motion-medium) ease,
-    background var(--motion-medium) var(--ease-ui),
-    border-color var(--motion-medium) var(--ease-ui),
-    box-shadow var(--motion-slow) var(--ease-ui),
-    transform var(--motion-medium) var(--ease-ui);
+    color var(--motion-hover) var(--ease-hover),
+    background var(--motion-hover) var(--ease-hover),
+    border-color var(--motion-hover) var(--ease-hover),
+    box-shadow var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 .modal__repo-arrow {
   position: relative;
@@ -217,7 +217,7 @@
   width: 14px;
   height: 14px;
   color: var(--blood-light);
-  transition: transform var(--motion-slow) var(--ease-ui);
+  transition: transform var(--motion-hover) var(--ease-hover);
 }
 .modal__repo-arrow::before {
   content: "";

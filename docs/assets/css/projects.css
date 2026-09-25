@@ -65,12 +65,12 @@
   letter-spacing: 0.055em;
   text-transform: uppercase;
   transition:
-    color var(--motion-slow) ease,
-    border-color var(--motion-slow) var(--ease-ui),
-    background var(--motion-slow) var(--ease-ui),
-    box-shadow var(--motion-slow) var(--ease-ui),
-    opacity var(--motion-medium) ease,
-    transform var(--motion-slow) var(--ease-ui);
+    color var(--motion-hover) var(--ease-hover),
+    border-color var(--motion-hover) var(--ease-hover),
+    background var(--motion-hover) var(--ease-hover),
+    box-shadow var(--motion-hover) var(--ease-hover),
+    opacity var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 .filtro-btn:hover {
   color: var(--text);
@@ -109,8 +109,8 @@
   box-shadow: 0 26px 80px rgba(0, 0, 0, 0.34);
   cursor: pointer;
   transition:
-    border-color var(--motion-medium) ease,
-    box-shadow var(--motion-slow) var(--ease-ui);
+    border-color var(--motion-hover) var(--ease-hover),
+    box-shadow var(--motion-hover) var(--ease-hover);
 }
 
 .projetos__grid .projeto-card {
@@ -263,10 +263,10 @@
   font: 0.78rem/1 var(--font-mono);
   letter-spacing: 0.1em;
   transition:
-    color var(--motion-medium) ease,
-    border-color var(--motion-medium) var(--ease-ui),
-    background var(--motion-medium) var(--ease-ui),
-    transform var(--motion-slow) var(--ease-ui);
+    color var(--motion-hover) var(--ease-hover),
+    border-color var(--motion-hover) var(--ease-hover),
+    background var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 .projeto-card__abrir-seta {
   position: relative;
@@ -274,7 +274,7 @@
   width: 13px;
   height: 13px;
   color: var(--blood-light);
-  transition: transform var(--motion-slow) var(--ease-ui);
+  transition: transform var(--motion-hover) var(--ease-hover);
 }
 .projeto-card__abrir-seta::before {
   content: "";

@@ -97,8 +97,9 @@
     width var(--motion-slow) var(--ease-ui),
     height var(--motion-slow) var(--ease-ui),
     transform var(--motion-slow) var(--ease-ui),
-    opacity var(--motion-slow) linear,
-    filter var(--motion-slow) linear;
+    opacity var(--motion-hover) var(--ease-hover),
+    filter var(--motion-hover) var(--ease-hover);
+  transition-delay: 0s, 0s, 0s, 60ms, 60ms;
   will-change: width, height, transform;
 }
 .navbar__indicator.is-ready {
@@ -124,9 +125,9 @@
   letter-spacing: 0.05em;
   text-decoration: none;
   transition:
-    color var(--motion-medium) ease,
-    text-shadow var(--motion-medium) ease,
-    transform var(--motion-slow) var(--ease-ui);
+    color var(--motion-hover) var(--ease-hover),
+    text-shadow var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 
 .navbar__nav-link::before,
@@ -264,10 +265,10 @@
   cursor: pointer;
   transform-origin: center;
   transition:
-    color var(--motion-medium) ease,
-    opacity var(--motion-fast) ease,
-    transform var(--motion-medium) var(--ease-ui),
-    filter var(--motion-medium) ease;
+    color var(--motion-hover) var(--ease-hover),
+    opacity var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover),
+    filter var(--motion-hover) var(--ease-hover);
 }
 
 .navbar__lang-label {
@@ -276,8 +277,8 @@
   letter-spacing: 0.08em;
   text-align: center;
   transition:
-    color var(--motion-medium) ease,
-    opacity var(--motion-medium) ease;
+    color var(--motion-hover) var(--ease-hover),
+    opacity var(--motion-hover) var(--ease-hover);
 }
 
 .navbar__lang-label--pt,
@@ -302,9 +303,9 @@
   background: rgba(255, 255, 255, 0.08);
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.55);
   transition:
-    background var(--motion-medium) ease,
-    border-color var(--motion-medium) ease,
-    box-shadow var(--motion-medium) ease;
+    background var(--motion-hover) var(--ease-hover),
+    border-color var(--motion-hover) var(--ease-hover),
+    box-shadow var(--motion-hover) var(--ease-hover);
 }
 
 .navbar__lang-thumb {
@@ -320,8 +321,8 @@
     inset 0 1px 0 #fff;
   transition:
     transform 0.54s cubic-bezier(0.32, 1.32, 0.38, 1),
-    background var(--motion-medium) ease,
-    box-shadow var(--motion-medium) ease;
+    background var(--motion-hover) var(--ease-hover),
+    box-shadow var(--motion-hover) var(--ease-hover);
 }
 
 @media (hover: hover) and (pointer: fine) {

@@ -199,11 +199,11 @@
   letter-spacing: 0.055em;
   text-transform: uppercase;
   transition:
-    color var(--motion-medium) ease,
-    background var(--motion-medium) var(--ease-ui),
-    border-color var(--motion-medium) var(--ease-ui),
-    box-shadow var(--motion-slow) var(--ease-ui),
-    transform var(--motion-slow) var(--ease-ui);
+    color var(--motion-hover) var(--ease-hover),
+    background var(--motion-hover) var(--ease-hover),
+    border-color var(--motion-hover) var(--ease-hover),
+    box-shadow var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 
 @media (hover: hover) and (pointer: fine) {

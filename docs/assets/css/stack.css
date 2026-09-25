@@ -3,8 +3,6 @@
   width: 100%;
   overflow-x: auto;
   padding: 38px 0 14px;
-  border-block: 1px solid rgba(238, 233, 229, 0.07);
-  background: rgba(8, 4, 6, 0.34);
   scrollbar-width: none;
 }
 .ticker::-webkit-scrollbar {
@@ -29,10 +27,6 @@
 .ticker__track.is-running {
   animation: ticker-scroll 48s linear infinite;
 }
-.ticker:hover .ticker__track.is-running,
-.ticker:focus-within .ticker__track.is-running {
-  animation-play-state: paused;
-}
 .ticker__group {
   display: flex;
   flex: 0 0 auto;
@@ -50,17 +44,10 @@
   place-items: center;
   align-content: center;
   gap: 11px;
-  border: 1px solid rgba(238, 233, 229, 0.09);
-  border-radius: 14px;
-  background: var(--surface-soft);
   color: rgba(238, 233, 229, 0.7);
   transition:
-    color var(--motion-medium) ease,
-    border-color var(--motion-medium) var(--ease-ui),
-    background var(--motion-medium) var(--ease-ui),
-    box-shadow var(--motion-slow) var(--ease-ui),
-    opacity var(--motion-medium) ease,
-    translate var(--motion-slow) var(--ease-ui);
+    color var(--motion-hover) var(--ease-hover),
+    opacity var(--motion-hover) var(--ease-hover);
 }
 
 .ticker-tech svg {
@@ -69,8 +56,8 @@
   fill: currentColor;
   opacity: 0.82;
   transition:
-    opacity var(--motion-medium) ease,
-    transform var(--motion-slow) var(--ease-ui);
+    opacity var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 .ticker-tech span {
   max-width: 100%;
@@ -84,10 +71,6 @@
 }
 .ticker-tech:hover {
   color: var(--text);
-  border-color: rgba(184, 50, 66, 0.4);
-  background: rgba(184, 50, 66, 0.065);
-  box-shadow: 0 14px 34px rgba(85, 19, 27, 0.14);
-  translate: 0 -3px;
 }
 .ticker-tech:hover svg {
   opacity: 1;
