@@ -55,10 +55,12 @@
   background: var(--surface-soft);
   color: rgba(238, 233, 229, 0.7);
   transition:
-    color 0.42s ease,
-    border-color 0.48s var(--ease-calm),
-    background 0.5s var(--ease-calm),
-    opacity 0.4s ease;
+    color var(--motion-medium) ease,
+    border-color var(--motion-medium) var(--ease-ui),
+    background var(--motion-medium) var(--ease-ui),
+    box-shadow var(--motion-slow) var(--ease-ui),
+    opacity var(--motion-medium) ease,
+    translate var(--motion-slow) var(--ease-ui);
 }
 
 .ticker-tech svg {
@@ -67,8 +69,8 @@
   fill: currentColor;
   opacity: 0.82;
   transition:
-    opacity 0.42s ease,
-    transform 0.52s var(--ease-calm);
+    opacity var(--motion-medium) ease,
+    transform var(--motion-slow) var(--ease-ui);
 }
 .ticker-tech span {
   max-width: 100%;
@@ -84,6 +86,8 @@
   color: var(--text);
   border-color: rgba(184, 50, 66, 0.4);
   background: rgba(184, 50, 66, 0.065);
+  box-shadow: 0 14px 34px rgba(85, 19, 27, 0.14);
+  translate: 0 -3px;
 }
 .ticker-tech:hover svg {
   opacity: 1;
@@ -122,9 +126,9 @@
 [data-i18n]:not(.skip-link),
 #projetosGrid {
   transition:
-    opacity 0.42s ease,
-    transform 0.48s var(--ease-out),
-    filter 0.36s ease;
+    opacity var(--motion-medium) ease,
+    transform var(--motion-slow) var(--ease-ui),
+    filter var(--motion-medium) ease;
 }
 html.is-changing-language [data-i18n]:not(.skip-link),
 html.is-changing-language #projetosGrid {
