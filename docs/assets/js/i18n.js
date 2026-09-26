@@ -6,8 +6,6 @@ const langToggle = document.getElementById("langToggle");
 const langThumb = langToggle.querySelector(".navbar__lang-thumb");
 const seletoresTransicaoIdioma = [
   ".navbar__links",
-  ".hero__panels",
-  ".hero__scroll-cue",
   ".ticker__label",
   ".sobre__conteudo",
   ".projetos__header",
@@ -110,6 +108,7 @@ export async function carregarIdioma(lang, traducoesProntas = null) {
   langToggle.setAttribute("aria-checked", String(inglesAtivo));
   renderProjetos();
   requestAnimationFrame(definirAlturaSpacer);
+  dispatchEvent(new CustomEvent("languagechange"));
   return true;
 }
 

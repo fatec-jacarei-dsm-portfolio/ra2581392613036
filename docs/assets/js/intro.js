@@ -66,8 +66,8 @@ function aguardarVideo(video) {
   });
 }
 
-function coletarCarregamentos() {
-  const tarefas = [];
+function coletarCarregamentos(tarefasExtras = []) {
+  const tarefas = [...tarefasExtras];
 
   if (document.fonts?.ready) tarefas.push(document.fonts.ready);
   if (document.readyState !== "complete") {
@@ -126,7 +126,7 @@ function encerrarIntro(aoEncerrar, prepararPagina) {
   }, ATRASO_REVELACAO);
 }
 
-export function iniciarIntro(prepararPagina = () => {}) {
+export function iniciarIntro(prepararPagina = () => {}, tarefasExtras = []) {
   if (!loader || !relogio || reduzirMovimento) {
     prepararPagina(true);
     pagina.classList.remove("is-loading");
@@ -135,7 +135,7 @@ export function iniciarIntro(prepararPagina = () => {}) {
     return Promise.resolve();
   }
 
-  const tarefas = coletarCarregamentos();
+  const tarefas = coletarCarregamentos(tarefasExtras);
   const total = tarefas.length;
   const inicio = performance.now();
   const horarioInicial = obterHorarioBrasilia();
