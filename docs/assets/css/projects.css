@@ -36,10 +36,10 @@
   pointer-events: none;
   transform: translate3d(var(--indicator-x, 0), var(--indicator-y, 0), 0);
   transition:
-    width 0.58s cubic-bezier(0.22, 0.61, 0.36, 1),
-    height 0.58s cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 0.58s cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 0.3s ease;
+    width var(--motion-slow) var(--ease-ui),
+    height var(--motion-slow) var(--ease-ui),
+    transform var(--motion-slow) var(--ease-ui),
+    opacity var(--motion-medium) ease;
   will-change: width, height, transform;
 }
 .projetos__filtro-indicator.is-ready {
@@ -59,24 +59,35 @@
   background: var(--surface-soft);
   color: var(--text-dim);
   cursor: pointer;
+  box-shadow: 0 0 0 rgba(85, 19, 27, 0);
+  transform: translateY(0);
   font-size: 0.8rem;
   letter-spacing: 0.055em;
   text-transform: uppercase;
   transition:
-    color 0.42s ease,
-    border-color 0.48s var(--ease-calm),
-    background 0.48s var(--ease-calm),
-    opacity 0.3s ease;
+    color var(--motion-hover) var(--ease-hover),
+    border-color var(--motion-hover) var(--ease-hover),
+    background var(--motion-hover) var(--ease-hover),
+    box-shadow var(--motion-hover) var(--ease-hover),
+    opacity var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 .filtro-btn:hover {
   color: var(--text);
-  border-color: rgba(184, 50, 66, 0.36);
-  background: rgba(184, 50, 66, 0.06);
+  border-color: rgba(184, 50, 66, 0.32);
+  background: rgba(184, 50, 66, 0.04);
+  box-shadow: 0 9px 24px rgba(85, 19, 27, 0.12);
+  transform: translateY(-2px);
 }
 .filtro-btn.is-active {
   color: var(--text);
   border-color: transparent;
   background: transparent;
+  box-shadow: none;
+  transform: translateY(0);
+}
+.filtro-btn:active {
+  transform: translateY(0) scale(0.97);
 }
 .projetos__grid {
   position: relative;
@@ -98,8 +109,8 @@
   box-shadow: 0 26px 80px rgba(0, 0, 0, 0.34);
   cursor: pointer;
   transition:
-    border-color 0.3s ease,
-    box-shadow 0.35s ease;
+    border-color var(--motion-hover) var(--ease-hover),
+    box-shadow var(--motion-hover) var(--ease-hover);
 }
 
 .projetos__grid .projeto-card {
@@ -170,6 +181,12 @@
   background: #050506;
 }
 @media (hover: hover) and (pointer: fine) {
+  .projeto-card:hover:not(.is-video-playing) .projeto-card__media img,
+  .projeto-card:focus-visible:not(.is-video-playing) .projeto-card__media img {
+    filter: saturate(0.8) contrast(1.09);
+    transform: translate3d(0, var(--media-parallax, 0), 0) scale(1.018);
+  }
+
   .projeto-card.is-video-playing .projeto-card__media img {
     opacity: 0;
     filter: saturate(0.55) contrast(1.04) blur(9px);
@@ -246,10 +263,10 @@
   font: 0.78rem/1 var(--font-mono);
   letter-spacing: 0.1em;
   transition:
-    color 0.42s ease,
-    border-color 0.48s var(--ease-calm),
-    background 0.48s var(--ease-calm),
-    transform 0.5s var(--ease-calm);
+    color var(--motion-hover) var(--ease-hover),
+    border-color var(--motion-hover) var(--ease-hover),
+    background var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 .projeto-card__abrir-seta {
   position: relative;
@@ -257,7 +274,7 @@
   width: 13px;
   height: 13px;
   color: var(--blood-light);
-  transition: transform 0.5s var(--ease-calm);
+  transition: transform var(--motion-hover) var(--ease-hover);
 }
 .projeto-card__abrir-seta::before {
   content: "";

@@ -9,7 +9,17 @@
       content="Portfólio de Igor Iansen, estudante de Desenvolvimento de Software Multiplataforma com foco em desenvolvimento full-stack."
     />
     <meta name="theme-color" content="#000000" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
+    <script>
+      (() => {
+        try {
+          document.documentElement.dataset.theme =
+            localStorage.getItem("tema") === "light" ? "light" : "dark";
+        } catch {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
     <link rel="icon" href="assets/media/drumsticks-navbar.png" />
 
     <link
@@ -40,6 +50,11 @@
       type="font/woff2"
       crossorigin
     />
+    <link
+      rel="preload"
+      href="assets/media/album-cover-dark-v1.jpg"
+      as="image"
+    />
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/navbar.css" />
     <link rel="stylesheet" href="assets/css/hero.css" />
@@ -49,6 +64,7 @@
     <link rel="stylesheet" href="assets/css/sections.css" />
     <link rel="stylesheet" href="assets/css/modal.css" />
     <link rel="stylesheet" href="assets/css/responsive.css" />
+    <link rel="stylesheet" href="assets/css/theme.css" />
   </head>
   <body>
     <div
@@ -88,7 +104,7 @@
           pointer-events: auto;
           transform: translateX(-50%);
         }
-        html.is-loading .hero__panels {
+        html.is-loading .hero__album-stage {
           opacity: 1;
           filter: none;
           transform: none;
@@ -97,16 +113,6 @@
           height: 100vh;
           height: 100svh;
           min-height: 620px;
-        }
-        html.is-loading .hero__panel--1 {
-          opacity: 1;
-          filter: none;
-          transform: translate3d(0, -50%, 0);
-        }
-        html.is-loading .hero__panel--2,
-        html.is-loading .hero__panel--3,
-        html.is-loading .hero__counter {
-          display: none;
         }
         .reveal,
         .info-card {
@@ -215,56 +221,62 @@
       <main id="conteudo" tabindex="-1">
         <section class="hero" id="hero">
           <div class="hero__scene">
-            <div class="hero__terminal" aria-hidden="true">
-              <div class="hero__terminal-path">~/portfolio/assets/js/main.js</div>
-              <div class="hero__terminal-code">
-                <span
-                  ><i>01</i><code><b>async function</b> iniciarApp() {</code></span
-                >
-                <span
-                  ><i>02</i><code>&nbsp;&nbsp;<b>await</b> carregarIdioma(lerIdiomaSalvo());</code></span
-                >
-                <span
-                  ><i>03</i><code>&nbsp;&nbsp;renderProjetos();</code></span
-                >
-                <span
-                  ><i>04</i><code>&nbsp;&nbsp;prepararEfeitos();</code></span
-                >
-                <span
-                  ><i>05</i><code>&nbsp;&nbsp;<b>await</b> iniciarIntro(atualizarReveals);</code></span
-                >
-                <span
-                  ><i>06</i><code>}</code></span
-                >
+            <h1 class="hero__accessible-title">Portfólio de Igor Iansen</h1>
+
+            <div class="hero__album-stage">
+              <div class="hero__record" aria-hidden="true">
+                <div class="hero__record-label"></div>
               </div>
-            </div>
 
-            <div class="hero__panels">
-              <article class="hero__panel hero__panel--1">
-                <h1 data-i18n="hero.title.1">
-                  <span class="hero__ghost">Meu nome é</span>
-                  <em>Igor Iansen</em>
-                </h1>
-              </article>
-              <article class="hero__panel hero__panel--2">
-                <h2 data-i18n="hero.title.2">
-                  Desenvolvo para web,
-                  <span class="hero__ghost">do front ao back</span>
-                </h2>
-              </article>
-              <article class="hero__panel hero__panel--3">
-                <h2 data-i18n="hero.title.3">
-                  <span class="hero__ghost">E este é um pouco</span> do que já
-                  construí
-                </h2>
-              </article>
-            </div>
+              <figure class="hero__cover">
+                <img
+                  class="hero__cover-art hero__cover-art--dark"
+                  src="assets/media/album-cover-dark-v1.jpg"
+                  alt=""
+                  width="1254"
+                  height="1254"
+                  fetchpriority="high"
+                />
+                <img
+                  class="hero__cover-art hero__cover-art--light"
+                  src="assets/media/album-cover-v1.jpg"
+                  alt=""
+                  width="1254"
+                  height="1254"
+                  loading="lazy"
+                  fetchpriority="low"
+                />
+                <canvas class="hero__cover-canvas" aria-hidden="true"></canvas>
+                <figcaption class="hero__cover-copy" aria-hidden="true">
+                  <span class="hero__cover-title">Portfolio</span>
+                  <span class="hero__cover-artist">Igor Iansen</span>
+                </figcaption>
+              </figure>
 
-            <div class="hero__counter" aria-hidden="true">
-              <span>01</span> / 03
-            </div>
-            <div class="hero__scroll-cue" data-i18n="hero.scroll">
-              continue rolando <span>↓</span>
+              <div class="hero__theme-control">
+                <span class="hero__theme-label" data-i18n="tema.rotulo"
+                  >MODO</span
+                >
+                <button
+                  class="hero__theme-switch"
+                  id="themeToggle"
+                  type="button"
+                  role="switch"
+                  aria-checked="false"
+                  aria-label="Ativar modo claro"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3.5" />
+                    <path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.55 1.55M17.55 17.55l1.55 1.55M19.1 4.9l-1.55 1.55M6.45 17.55 4.9 19.1" />
+                  </svg>
+                  <span class="hero__theme-track" aria-hidden="true">
+                    <span class="hero__theme-thumb"></span>
+                  </span>
+                  <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M20 15.2A8.2 8.2 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2Z" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -517,24 +529,25 @@
             </h2>
             <div class="sobre__texto">
               <p data-i18n="sobre.texto.1">
-                Curso <code>Desenvolvimento de Software Multiplataforma</code>
-                na Fatec Jacareí e estou no segundo semestre. Procuro minha
-                primeira oportunidade na área enquanto continuo construindo
-                projetos e melhorando o que já sei.
+                Sou estudante de
+                <code>Desenvolvimento de Software Multiplataforma</code> e
+                desenvolvedor full-stack em início de carreira. Gosto de
+                acompanhar uma ideia de ponta a ponta, da interface à API e ao
+                banco de dados.
               </p>
               <p data-i18n="sobre.texto.2">
-                Até agora, minha experiência veio de projetos pessoais,
-                trabalhos da faculdade e hackathons. É onde uso principalmente
+                Minha experiência vem de projetos acadêmicos, pessoais e
+                hackathons. Neles, trabalho principalmente com
                 <strong
                   >JavaScript, TypeScript, React, Node.js, Express e
                   PostgreSQL</strong
-                >
-                e acompanho o desenvolvimento da interface ao banco de dados.
+                >, sempre tentando entender as decisões por trás do código.
               </p>
               <p data-i18n="sobre.texto.3">
-                Aprendo melhor quando tenho algo para construir. Gosto de
-                investigar erros, organizar as ideias e compartilhar o que
-                aprendo com quem está trabalhando comigo.
+                Aprendo melhor construindo. Gosto de investigar erros,
+                organizar problemas em partes menores e trocar conhecimento
+                com quem está trabalhando comigo. Agora, busco minha primeira
+                oportunidade profissional na área.
               </p>
             </div>
             <ul
@@ -628,25 +641,27 @@
           </h2>
           <div class="info-complementar__grid">
             <article class="info-card">
-              <h3 data-i18n="info.formacao">Faculdade</h3>
+              <h3 data-i18n="info.formacao">Formação</h3>
               <p data-i18n="info.formacao.texto">
                 Estou no 2º semestre de Desenvolvimento de Software
-                Multiplataforma na Fatec Jacareí.
+                Multiplataforma na Fatec Jacareí. É onde tenho contato com
+                diferentes etapas de um produto e desenvolvo projetos em equipe.
               </p>
             </article>
             <article class="info-card">
-              <h3 data-i18n="info.foco">O que estou estudando</h3>
+              <h3 data-i18n="info.foco">Novos interesses</h3>
               <p data-i18n="info.foco.texto">
-                Hoje, meu foco é desenvolvimento full-stack. Também estou
-                começando a estudar cibersegurança e inteligência artificial.
+                Quero explorar cibersegurança e inteligência artificial aos
+                poucos, levando o que aprender para projetos que eu possa testar
+                na prática.
               </p>
             </article>
             <article class="info-card">
-              <h3 data-i18n="info.hobbies">Quando não estou programando</h3>
+              <h3 data-i18n="info.hobbies">Fora do código</h3>
               <p data-i18n="info.hobbies.texto">
-                Toco bateria, assisto animes e gosto de jogos competitivos.
-                Também sou coroinha na paróquia da minha cidade e gosto bastante
-                de carros e motos esportivas.
+                Toco bateria, acompanho animes e gosto de jogos competitivos.
+                Também sou coroinha na paróquia da minha cidade e gosto
+                bastante de carros e motos esportivas.
               </p>
             </article>
           </div>

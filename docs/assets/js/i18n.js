@@ -3,6 +3,17 @@ import { definirAlturaSpacer } from "./navigation.js";
 import { renderProjetos } from "./projects.js";
 
 const langToggle = document.getElementById("langToggle");
+const langThumb = langToggle.querySelector(".navbar__lang-thumb");
+const seletoresTransicaoIdioma = [
+  ".navbar__links",
+  ".ticker__label",
+  ".sobre__conteudo",
+  ".projetos__header",
+  "#projetosGrid",
+  ".info-complementar",
+  ".contato",
+  ".footer",
+];
 let idiomaTrocando = false;
 
 function aplicarTraducoes(seletor, chaveDataset, aplicar) {
@@ -12,18 +23,65 @@ function aplicarTraducoes(seletor, chaveDataset, aplicar) {
   });
 }
 
-export async function carregarIdioma(lang) {
-  const proximoIdioma = lang === "en" ? "en" : "pt";
-  let novasTraducoes;
+function obterAlvosTransicaoIdioma() {
+  return seletoresTransicaoIdioma
+    .map((seletor) => document.querySelector(seletor))
+    .filter(Boolean);
+}
 
+function iniciarAnimacoes(elementos, quadros, opcoes) {
+  return elementos.map((elemento) => elemento.animate(quadros, opcoes));
+}
+
+async function aguardarAnimacoes(animacoes) {
+  await Promise.all(
+    animacoes.map((animacao) => animacao.finished.catch(() => {})),
+  );
+}
+
+function aguardarProximoQuadro() {
+  return new Promise((resolve) => requestAnimationFrame(resolve));
+}
+
+function aguardarMovimentoDoSwitch() {
+  return new Promise((resolve) => {
+    let finalizado = false;
+    const fallback = setTimeout(concluir, 650);
+
+    function concluir(evento) {
+      if (
+        finalizado ||
+        (evento &&
+          (evento.target !== langThumb || evento.propertyName !== "transform"))
+      )
+        return;
+
+      finalizado = true;
+      clearTimeout(fallback);
+      langThumb.removeEventListener("transitionend", concluir);
+      resolve();
+    }
+
+    langThumb.addEventListener("transitionend", concluir);
+  });
+}
+
+async function buscarTraducoes(lang) {
   try {
-    const resposta = await fetch(`locales/${proximoIdioma}.json`);
+    const resposta = await fetch(`locales/${lang}.json`);
     if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
-    novasTraducoes = await resposta.json();
+    return await resposta.json();
   } catch (erro) {
     console.warn("Não foi possível carregar o idioma solicitado.", erro);
-    return false;
+    return null;
   }
+}
+
+export async function carregarIdioma(lang, traducoesProntas = null) {
+  const proximoIdioma = lang === "en" ? "en" : "pt";
+  const novasTraducoes =
+    traducoesProntas || (await buscarTraducoes(proximoIdioma));
+  if (!novasTraducoes) return false;
 
   state.idiomaAtual = proximoIdioma;
   state.traducoes = novasTraducoes;
@@ -50,6 +108,7 @@ export async function carregarIdioma(lang) {
   langToggle.setAttribute("aria-checked", String(inglesAtivo));
   renderProjetos();
   requestAnimationFrame(definirAlturaSpacer);
+  dispatchEvent(new CustomEvent("languagechange"));
   return true;
 }
 
@@ -58,17 +117,56 @@ async function trocarIdiomaComAnimacao() {
   idiomaTrocando = true;
 
   try {
-    if (!reduzirMovimento) {
-      document.documentElement.classList.add("is-changing-language");
-      langToggle.classList.add("is-switching");
-      await new Promise((resolve) => setTimeout(resolve, 240));
+    const proximoIdioma = state.idiomaAtual === "pt" ? "en" : "pt";
+    const novasTraducoes = await buscarTraducoes(proximoIdioma);
+    if (!novasTraducoes) return;
+
+    if (reduzirMovimento || !("animate" in Element.prototype)) {
+      await carregarIdioma(proximoIdioma, novasTraducoes);
+      return;
     }
 
-    await carregarIdioma(state.idiomaAtual === "pt" ? "en" : "pt");
-    if (!reduzirMovimento)
-      await new Promise((resolve) => setTimeout(resolve, 460));
+    langToggle.classList.add("is-switching");
+    const fimMovimentoSwitch = aguardarMovimentoDoSwitch();
+    langToggle.classList.toggle("is-en", proximoIdioma === "en");
+    const alvos = obterAlvosTransicaoIdioma();
+    const animacoesSaida = iniciarAnimacoes(
+      alvos,
+      [
+        { opacity: 1, filter: "blur(0)" },
+        { opacity: 0, filter: "blur(3px)" },
+      ],
+      {
+        duration: 500,
+        easing: "cubic-bezier(0.4, 0, 0.6, 1)",
+        fill: "forwards",
+      },
+    );
+
+    await Promise.all([
+      aguardarAnimacoes(animacoesSaida),
+      fimMovimentoSwitch,
+    ]);
+    await carregarIdioma(proximoIdioma, novasTraducoes);
+    await aguardarProximoQuadro();
+
+    const animacoesEntrada = iniciarAnimacoes(
+      alvos,
+      [
+        { opacity: 0, filter: "blur(3px)" },
+        { opacity: 1, filter: "blur(0)" },
+      ],
+      {
+        duration: 480,
+        easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+        fill: "forwards",
+      },
+    );
+
+    await aguardarAnimacoes(animacoesEntrada);
+    animacoesSaida.forEach((animacao) => animacao.cancel());
+    animacoesEntrada.forEach((animacao) => animacao.cancel());
   } finally {
-    document.documentElement.classList.remove("is-changing-language");
     langToggle.classList.remove("is-switching");
     idiomaTrocando = false;
   }

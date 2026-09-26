@@ -5,9 +5,8 @@ const scrollSpacer = document.getElementById("scrollSpacer");
 const navbar = document.getElementById("navbar");
 const hero = document.getElementById("hero");
 const cenaHero = hero?.querySelector(".hero__scene");
-const paineisHero = [...document.querySelectorAll(".hero__panel")];
-const contadorHero = document.querySelector(".hero__counter span");
-const dicaHero = document.querySelector(".hero__scroll-cue");
+const palcoAlbum = hero?.querySelector(".hero__album-stage");
+const capaAlbum = palcoAlbum?.querySelector(".hero__cover");
 const gridProjetos = document.getElementById("projetosGrid");
 const sobre = document.getElementById("sobre");
 const fotoSobre = sobre?.querySelector(".sobre__foto");
@@ -18,11 +17,6 @@ const containerLinksNavbar = document.querySelector(".navbar__links");
 const indicadorNavbar = containerLinksNavbar?.querySelector(
   ".navbar__indicator",
 );
-const cenasHero = [
-  { centro: 0, alcance: 0.29, x: 118, y: 68, giro: 1.2 },
-  { centro: 0.38, alcance: 0.29, x: -104, y: 62, giro: -0.9 },
-  { centro: 0.8, alcance: 0.34, x: 90, y: -62, giro: 0.75 },
-];
 const linksNavegacao = [...document.querySelectorAll(".navbar__links a")].map(
   (link) => ({
     link,
@@ -36,6 +30,7 @@ let quadroSmoothScroll = 0;
 let linkNavbarAtual = null;
 let linkNavbarEmInteracao = null;
 let linkNavbarDestino = null;
+let quadroIndicadorNavbar = 0;
 
 function atualizarIndicadorNavbar(
   link,
@@ -43,7 +38,18 @@ function atualizarIndicadorNavbar(
   visivel = Boolean(link),
 ) {
   if (!indicadorNavbar) return;
-  indicadorNavbar.classList.toggle("is-initializing", imediato);
+  cancelAnimationFrame(quadroIndicadorNavbar);
+  quadroIndicadorNavbar = 0;
+
+  const deveFazerFade =
+    Boolean(link) &&
+    visivel &&
+    !imediato &&
+    !indicadorNavbar.classList.contains("is-ready");
+  indicadorNavbar.classList.toggle(
+    "is-initializing",
+    imediato || deveFazerFade,
+  );
 
   if (!link) {
     indicadorNavbar.classList.remove("is-ready");
@@ -58,11 +64,20 @@ function atualizarIndicadorNavbar(
       "--nav-indicator-y",
       `${link.offsetTop}px`,
     );
-    indicadorNavbar.classList.toggle("is-ready", visivel);
+    indicadorNavbar.classList.toggle(
+      "is-ready",
+      visivel && !deveFazerFade,
+    );
   }
 
-  if (imediato) {
-    requestAnimationFrame(() => {
+  if (deveFazerFade) {
+    void indicadorNavbar.offsetWidth;
+    indicadorNavbar.classList.remove("is-initializing");
+    void indicadorNavbar.offsetWidth;
+    indicadorNavbar.classList.add("is-ready");
+  } else if (imediato) {
+    quadroIndicadorNavbar = requestAnimationFrame(() => {
+      quadroIndicadorNavbar = 0;
       indicadorNavbar.classList.remove("is-initializing");
     });
   }
@@ -71,11 +86,7 @@ function atualizarIndicadorNavbar(
 function restaurarIndicadorNavbar() {
   linkNavbarEmInteracao = null;
   const destino = linkNavbarDestino || linkNavbarAtual;
-  atualizarIndicadorNavbar(
-    destino || linksNavegacao[0]?.link,
-    false,
-    Boolean(destino),
-  );
+  atualizarIndicadorNavbar(destino);
 }
 
 export function atualizarElementosReveal() {
@@ -155,7 +166,11 @@ export function atualizarReveals(
 }
 
 function atualizarSobre(rect = sobre?.getBoundingClientRect()) {
-  if (!sobre || !rect || reduzirMovimento) return;
+  if (!sobre || !rect) return;
+  if (reduzirMovimento) {
+    sobre.classList.add("is-flower-ready");
+    return;
+  }
 
   const progresso = limitar(
     (innerHeight * 0.9 - rect.top) / (innerHeight * 0.82),
@@ -290,57 +305,62 @@ function atualizarHero() {
     "--hero-scale",
     (1 - limitar((progresso - 0.86) / 0.14) * 0.035).toFixed(4),
   );
-  cenaHero.style.setProperty(
-    "--terminal-x",
-    `${((progresso - 0.5) * -28).toFixed(2)}px`,
+  if (!palcoAlbum) return;
+
+  const abertura = limitar((progresso - 0.04) / 0.76);
+  const encerramento = limitar((progresso - 0.84) / 0.16);
+  const alcanceHorizontal = Math.min(innerWidth * (ehTouch ? 0.14 : 0.13), 150);
+  const deslocamentoCapa = -abertura * alcanceHorizontal * 0.72;
+  const rotacaoCapa = -abertura * 2.2;
+
+  palcoAlbum.style.setProperty(
+    "--cover-shift-x",
+    `${deslocamentoCapa.toFixed(2)}px`,
   );
-  cenaHero.style.setProperty(
-    "--terminal-y",
-    `${((progresso - 0.5) * 18).toFixed(2)}px`,
+  palcoAlbum.style.setProperty(
+    "--cover-rotation",
+    `${rotacaoCapa.toFixed(3)}deg`,
   );
-
-  let painelAtivo = 0;
-  let menorDistancia = Infinity;
-  paineisHero.forEach((painel, indice) => {
-    const cena = cenasHero[indice];
-    const distanciaNatural = (progresso - cena.centro) / cena.alcance;
-    const distancia = limitar(distanciaNatural, -1.25, 1.25);
-    const afastamento = Math.abs(distanciaNatural);
-    const fade = limitar((afastamento - 0.1) / 0.8);
-    const opacidade = 1 - fade * fade * (3 - 2 * fade);
-
-    painel.style.setProperty("--panel-opacity", opacidade.toFixed(3));
-    painel.style.setProperty(
-      "--panel-x",
-      `${(distancia * cena.x).toFixed(2)}px`,
+  palcoAlbum.style.setProperty(
+    "--record-shift-x",
+    `${(abertura * alcanceHorizontal).toFixed(2)}px`,
+  );
+  palcoAlbum.style.setProperty(
+    "--record-rotation",
+    `${(abertura * 360).toFixed(2)}deg`,
+  );
+  palcoAlbum.style.setProperty(
+    "--album-lift",
+    `${(-encerramento * 42).toFixed(2)}px`,
+  );
+  if (capaAlbum) {
+    const proporcaoCapa = innerWidth <= 780 ? 0.58 : 0.64;
+    const compensacaoRotacao =
+      Math.sin(Math.abs(rotacaoCapa) * (Math.PI / 180)) *
+      capaAlbum.offsetHeight *
+      0.5;
+    const posicaoCalculada =
+      palcoAlbum.clientWidth / 2 -
+      capaAlbum.offsetWidth * proporcaoCapa +
+      deslocamentoCapa -
+      compensacaoRotacao -
+      54;
+    const posicaoControle = innerWidth <= 780
+      ? Math.max(6, posicaoCalculada)
+      : posicaoCalculada;
+    palcoAlbum.style.setProperty(
+      "--theme-control-x",
+      `${posicaoControle.toFixed(2)}px`,
     );
-    painel.style.setProperty(
-      "--panel-y",
-      `${(distancia * cena.y).toFixed(2)}px`,
+    palcoAlbum.style.setProperty(
+      "--theme-control-y",
+      `${(
+        Math.sin(Math.abs(rotacaoCapa) * (Math.PI / 180)) *
+        capaAlbum.offsetWidth *
+        0.5
+      ).toFixed(2)}px`,
     );
-    painel.style.setProperty(
-      "--panel-rotation",
-      `${(distancia * cena.giro).toFixed(3)}deg`,
-    );
-    painel.style.setProperty(
-      "--panel-blur",
-      `${(ehTouch ? 0 : (1 - opacidade) * 3).toFixed(2)}px`,
-    );
-    painel.style.setProperty(
-      "--panel-scale",
-      (0.985 + opacidade * 0.015).toFixed(4),
-    );
-
-    const distanciaDoCentro = Math.abs(progresso - cena.centro);
-    if (distanciaDoCentro < menorDistancia) {
-      menorDistancia = distanciaDoCentro;
-      painelAtivo = indice;
-    }
-  });
-
-  if (contadorHero)
-    contadorHero.textContent = String(painelAtivo + 1).padStart(2, "0");
-  if (dicaHero) dicaHero.style.opacity = String(1 - limitar(progresso / 0.12));
+  }
 }
 
 function atualizarInterfaceScroll() {
@@ -379,11 +399,7 @@ function atualizarInterfaceScroll() {
 
   if (estadoAlterado && !linkNavbarEmInteracao) {
     const destino = linkNavbarDestino || linkNavbarAtual;
-    atualizarIndicadorNavbar(
-      destino || linksNavegacao[0]?.link,
-      false,
-      Boolean(destino),
-    );
+    atualizarIndicadorNavbar(destino);
   }
 }
 
@@ -440,7 +456,7 @@ document
       } else if (link.classList.contains("navbar__home")) {
         linkNavbarDestino = null;
         linkNavbarEmInteracao = null;
-        atualizarIndicadorNavbar(linksNavegacao[0]?.link, false, false);
+        atualizarIndicadorNavbar(null);
       }
 
       scrollTo({

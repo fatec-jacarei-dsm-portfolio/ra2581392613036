@@ -4,14 +4,16 @@ import { renderProjetos } from "./projects.js";
 import { iniciarEfeitosInterativos, prepararEfeitos } from "./effects.js";
 import { iniciarIntro } from "./intro.js";
 import { atualizarReveals } from "./navigation.js";
+import { prepararTema } from "./theme.js";
 
 async function iniciarApp() {
+  prepararTema();
   const carregado = await carregarIdioma(lerIdiomaSalvo());
   if (!carregado) renderProjetos();
   prepararEfeitos();
-  await iniciarIntro(atualizarReveals);
+  const efeitosInterativosProntos = iniciarEfeitosInterativos();
+  await iniciarIntro(atualizarReveals, [efeitosInterativosProntos]);
   atualizarReveals();
-  iniciarEfeitosInterativos();
 }
 
 iniciarApp().catch((erro) => {

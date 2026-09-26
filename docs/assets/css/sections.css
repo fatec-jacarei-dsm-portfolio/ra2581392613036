@@ -22,10 +22,10 @@
   background: var(--surface-soft);
   translate: 0 0;
   transition:
-    translate 0.55s var(--ease-calm),
-    border-color 0.5s var(--ease-calm),
-    background 0.55s var(--ease-calm),
-    box-shadow 0.55s var(--ease-calm);
+    translate var(--motion-hover) var(--ease-hover),
+    border-color var(--motion-hover) var(--ease-hover),
+    background var(--motion-hover) var(--ease-hover),
+    box-shadow var(--motion-hover) var(--ease-hover);
 }
 .info-card h3 {
   margin: 0 0 15px;
@@ -33,8 +33,8 @@
   font-size: 1.125rem;
   font-weight: 700;
   transition:
-    color 0.45s ease,
-    transform 0.52s var(--ease-calm);
+    color var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 .info-card p {
   color: var(--text-dim);
@@ -100,11 +100,11 @@
   text-decoration: none;
   text-transform: uppercase;
   transition:
-    color 0.42s ease,
-    background 0.48s var(--ease-calm),
-    border-color 0.48s var(--ease-calm),
-    box-shadow 0.52s var(--ease-calm),
-    transform 0.5s var(--ease-calm);
+    color var(--motion-hover) var(--ease-hover),
+    background var(--motion-hover) var(--ease-hover),
+    border-color var(--motion-hover) var(--ease-hover),
+    box-shadow var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 .btn-contato--icone {
   width: 58px;
@@ -120,8 +120,8 @@
   width: 28px;
   height: 28px;
   transition:
-    filter 0.42s ease,
-    transform 0.5s var(--ease-calm);
+    filter var(--motion-hover) var(--ease-hover),
+    transform var(--motion-hover) var(--ease-hover);
 }
 .btn-contato:hover,
 .btn-contato:focus-visible {

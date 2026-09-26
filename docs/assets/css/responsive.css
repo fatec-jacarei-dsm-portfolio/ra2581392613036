@@ -49,38 +49,6 @@
   .navbar__links {
     display: flex;
   }
-  .hero {
-    height: 270svh;
-    min-height: 1700px;
-  }
-  .hero__scene {
-    min-height: 600px;
-  }
-  .hero__terminal {
-    right: -18%;
-    width: min(88vw, 620px);
-    opacity: 0.22;
-    transform: rotate(-4deg);
-    will-change: auto;
-  }
-  .hero__panel {
-    width: calc(100% - 48px);
-    will-change: opacity, transform;
-  }
-  .hero__panel--1,
-  .hero__panel--3 {
-    left: 24px;
-  }
-  .hero__panel--2 {
-    right: 24px;
-  }
-  .hero__panel h1,
-  .hero__panel h2 {
-    font-size: clamp(3.4rem, 12.5vw, 7rem);
-  }
-  .hero__counter {
-    right: 24px;
-  }
   .sobre,
   .projetos,
   .info-complementar,
@@ -139,12 +107,6 @@
 }
 
 @media (max-width: 500px) {
-  .hero__terminal {
-    top: 20%;
-    right: -34%;
-    width: 118vw;
-    opacity: 0.2;
-  }
   .navbar {
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 4px;
@@ -184,15 +146,6 @@
   }
   .navbar__lang.is-en .navbar__lang-thumb {
     transform: translateX(14px);
-  }
-  .hero {
-    height: 280svh;
-    min-height: 1680px;
-  }
-  .hero__panel h1,
-  .hero__panel h2 {
-    font-size: clamp(3.1rem, 16vw, 5.2rem);
-    line-height: 0.92;
   }
   .ticker {
     padding-top: 36px;
@@ -263,10 +216,6 @@
   #cursorCanvas {
     display: none;
   }
-  .hero__terminal-code code {
-    animation: none;
-    clip-path: none;
-  }
   .reveal,
   .projeto-card,
   .info-card {
@@ -284,29 +233,18 @@
     padding: clamp(130px, 18vh, 190px) var(--page-pad) 110px;
     transform: none !important;
   }
-  .hero__panels {
-    position: relative;
-    display: grid;
-    gap: clamp(72px, 12vh, 120px);
-  }
-  .hero__panel,
-  .hero__panel--1,
-  .hero__panel--2,
-  .hero__panel--3 {
-    position: relative;
-    top: auto;
-    right: auto;
-    left: auto;
-    width: min(100%, 980px);
+  .hero__album-stage {
     opacity: 1 !important;
     filter: none !important;
     transform: none !important;
   }
-  .hero__scroll-cue {
-    display: none;
+
+  .hero__cover {
+    transform: translate3d(-64%, -50%, 0) !important;
   }
-  .hero__counter {
-    display: none;
+
+  .hero__record {
+    transform: translate3d(-22%, -50%, 0) !important;
   }
   .vine__stem--1,
   .petal,

@@ -32,15 +32,14 @@
   --bg: #000;
   --surface: rgba(10, 10, 12, 0.92);
   --surface-soft: rgba(238, 233, 229, 0.025);
-  --surface-hover: rgba(238, 233, 229, 0.045);
   --blood: #55131b;
   --blood-light: #b83242;
   --blood-soft: rgba(184, 50, 66, 0.09);
   --text: #eee9e5;
   --text-dim: #aaa3a4;
   --line: rgba(238, 233, 229, 0.11);
-  --line-strong: rgba(238, 233, 229, 0.2);
   --line-red: rgba(184, 50, 66, 0.3);
+  --cursor-rgb: 238, 233, 229;
   --font-display: "Metal Mania", Georgia, serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "Courier New", monospace;
@@ -51,6 +50,12 @@
   --radius-lg: 30px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-ui: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-hover: cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-fast: 0.28s;
+  --motion-hover: 0.4s;
+  --motion-medium: 0.48s;
+  --motion-slow: 0.68s;
 }
 
 *,

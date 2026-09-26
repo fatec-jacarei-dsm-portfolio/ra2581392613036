@@ -14,6 +14,7 @@ const scrollContainer = document.getElementById("scrollContainer");
 const navbar = document.getElementById("navbar");
 const filtros = document.querySelector(".projetos__filtros");
 const indicadorFiltro = filtros?.querySelector(".projetos__filtro-indicator");
+const TEMPO_FECHAMENTO_MODAL = 700;
 let elementoFocoAnterior = null;
 let trocaEmAndamento = false;
 let videoAtivo = null;
@@ -361,7 +362,7 @@ function abrirModal(projeto, origem) {
   modal.getBoundingClientRect();
   requestAnimationFrame(() => {
     modalOverlay.classList.add("is-open");
-    modalClose.focus();
+    requestAnimationFrame(() => modalClose.focus());
   });
 }
 
@@ -383,7 +384,7 @@ function fecharModal() {
     concluir();
     return;
   }
-  temporizadorModal = setTimeout(concluir, 580);
+  temporizadorModal = setTimeout(concluir, TEMPO_FECHAMENTO_MODAL);
 }
 
 modalClose.addEventListener("click", fecharModal);
